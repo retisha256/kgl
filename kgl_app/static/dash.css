@@ -1,0 +1,95 @@
+body {
+  font-family: 'Arial', sans-serif; /* More modern font */
+  background-color: #f4f4f8; /* Soft background color */
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #031e3c; /* A brighter header color */
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+nav {
+  display: flex;
+  justify-content: center; /* Center the navigation links */
+  gap: 1rem; /* More consistent gap */
+  margin-top: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem; /* Slightly adjusted padding */
+  border-radius: 0.375rem; /* Rounded corners for links */
+  background-color: rgba(255, 255, 255, 0.2); /* Lighter background for links */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  font-weight: 500; /* Medium font weight */
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* Slightly brighter on hover */
+}
+
+main {
+  padding: 2rem;
+  min-height: calc(100vh - 140px); /* Ensure main content takes up enough space */
+}
+
+footer {
+  background-color: #e9ecef; /* Lighter footer */
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #dee2e6;
+  color: #6c757d;
+}
+
+/* --- Table Styles --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  background-color: white;
+  border-radius: 0.5rem; /* Rounded corners for the table */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for the table */
+  overflow: hidden;  /* Needed for rounded corners on thead/tbody */
+}
+
+th, td {
+  padding: 1.25rem;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6; /* Lighter borders */
+}
+
+th {
+  background-color: #041b33; /* Blue header */
+  color: white;
+  font-weight: bold;
+}
+
+/* Zebra striping and hover effects */
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Very light gray */
+}
+
+tbody tr:hover {
+  background-color: #f0f0f0; /* Slightly darker hover */
+}
+
+/* Style for links within the table */
+td a {
+  color: #03182f;
+  text-decoration: none;
+}
+
+td a:hover {
+  text-decoration: underline;
+}
+
+h1{
+  text-align: center;
+}

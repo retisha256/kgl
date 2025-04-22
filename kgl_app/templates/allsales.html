@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - My Awesome Site{% endblock %}
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{% static 'dash.css' %}">
+
+        {% block content %}    
+           <h1>All sales</h1>
+           <table>
+               <thead>
+                   <tr>
+                       <th>product name</th>
+                       <th>tonnage</th>
+                       <th>amount paid</th>
+                       <th>buyer's name</th>
+                       <th>date and time</th>
+                       <th>sales agent</th>
+                       <th>is sold on cash</th>
+                       <th>branch</th>
+                       
+                       
+                       
+                   </tr>
+               </thead>
+               {% for Sales in sales %}
+               <tbody>
+                   <tr>
+                       <td>{{ Sales.product_name }}</td>
+                       <td>{{ Sales.tonnage }}</td>
+                       <td>{{ Sales.amount_paid }}</td>
+                       <td>{{ Sales.buyers_name }}</td>
+                       <td>{{ Sales.date_and_time }}</td>
+                       <td>{{ Sales.salesagent_name }}</td>
+                       <td>{{ Sales.is_sold_on_cash }}</td>
+                       <td>{{ Sales.branch }}</td>
+                       
+                   </tr>
+               </tbody>
+               {% endfor %}
+           </table>
+        {% endblock %}
+        
+    
+</body>
+</html>
+   

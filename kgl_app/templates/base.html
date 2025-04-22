@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Awesome Site{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'dash.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#">HOME</a>
+            <a href="allstock/">ALL_STOCK</a>
+            <a href="allsales/">ALL_SALES</a>
+            <a href="#">ADDSALES</a>
+            <a href="#">ADDSTOCK</a>
+            <a href="#">RECEIPT</a>
+            <div id="indicator"></div>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+            <h1>Welcome to My Awesome Site</h1>
+            <p>This is the default content area.</p>
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; Karibu Groceries Limited 2025</p>
+    </footer>
+  
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
