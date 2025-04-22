@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from .models import *
 
+
 class AddStockForm(ModelForm):
     class Meta:
         model=Stock
