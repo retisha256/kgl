@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link rel="stylesheet" href="{% static 'receipt.css' %}">
+    
+
+</head>
+<body>
+    {% block content %}
+    <div class="receipt-grid">
+    <div class="card">
+        {% for sale in sales %}
+        <div class="cardbody">
+            <h3>Customer:{{ sale.customer_name }}</h3>
+            <h3>Item: {{ sale.product_name }}</h3>
+            <h3>Amount paid:{{ sale.amount_received }}</h3>
+            <h3>Quantity:{{ sale.quantity}}</h3>
+            <h2>Total price: Ugx{{ sale.get_total }}</h2>
+            <div style="flex:1;">
+                <h6 class="card-text">
+                    Change Collected: Ugx {{ sale.get_change}}
+
+                </h6>
+                <a href="{% url 'receipt_detail' sale.id %}"><input type="submit" value="Final Receipt"class='btn btn-danger'></a>
+            </div>
+        </div>
+
+    </div>
+
+       {% endfor %}
+    </div>
+    {% endblock %}
+</body>
+</html>

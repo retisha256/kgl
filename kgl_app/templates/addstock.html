@@ -1,0 +1,26 @@
+
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'addstock.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    {% block content %}
+    <div class="container">
+        <form action=""method="POST">
+            <h1 class="text-center">Add to stock Form</h1>
+            <br>
+            {% csrf_token %}
+            {{ form| crispy }}
+            <input type="submit" value="submit" class="btn btn-primary btn">
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

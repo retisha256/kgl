@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser,Permission,Group
 
 
 
@@ -11,10 +11,28 @@ class Userprofile(AbstractUser):
     is_owner= models.BooleanField(default=False)
     username =models.CharField(max_length=25,unique=True)
     email =models.EmailField(max_length=25, unique=True)
-    address = models.TextField(max_length=50, blank=False)
-    gender = models.TextField(max_length=10, blank=False)
+    address = models.CharField(max_length=50, blank=True)
+    phonenumber =models.CharField(max_length= 20,blank=True)
+    gender = models.CharField(max_length=10, blank=True)
+    # Override default reverse accessors to avoid conflicts
+    groups = models.ManyToManyField(
+        Group,
+        related_name="userprofile_groups",
+        blank=True,
+        help_text="The groups this user belongs to.",
+        verbose_name="groups"
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name="userprofile_permissions",
+        blank=True,
+        help_text="Specific permissions for this user.",
+        verbose_name="user permissions"
+    )
+
     def __str__(self):
         return self.username
+
 #branch model
 class Branch(models.Model):
     branch_name = models.CharField(max_length=50)
@@ -28,7 +46,7 @@ class ProduceType(models.Model):
     type_of_produce = models.CharField(max_length=50)
     def __str__(self):
         return self.type_of_produce
-
+                                
 
 
 #stock model

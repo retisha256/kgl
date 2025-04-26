@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'kgl_app',
-    'crispy_forms'
+    'crispy_forms',
+    'crispy_bootstrap5'
+
 
 ]
 AUTH_USER_MODEL ='kgl_app.Userprofile'
@@ -125,3 +127,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK ='bootstrap5'
+LOGIN_REDIRECT_URL="index"
+
+LOGIN_URL ="login"

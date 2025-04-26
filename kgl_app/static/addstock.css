@@ -1,0 +1,81 @@
+/* static/css/style.css */
+
+body {
+    font-family: sans-serif; /* A clean and readable default font */
+    background-color: #f4f4f4; /* A light gray background */
+    margin: 0; /* Remove default body margins */
+    display: flex; /* Enable flexbox for centering the content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Ensure the body takes at least the full viewport height */
+}
+
+.container {
+    background-color: #fff; /* White background for the form container */
+    padding: 40px; /* Add some padding around the form */
+    border-radius: 8px; /* Slightly rounded corners for a softer look */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    width: 80%; /* Adjust the width as needed */
+    max-width: 600px; /* Set a maximum width for larger screens */
+}
+
+.text-center {
+    text-align: center; /* Center the heading */
+    color: #333; /* Dark gray heading text */
+    margin-bottom: 30px; /* Add space below the heading */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Space between form fields */
+}
+
+label {
+    display: block; /* Make labels take the full width */
+    margin-bottom: 5px; /* Add a little space below the label */
+    color: #555; /* Slightly lighter text for labels */
+    font-weight: bold; /* Make labels stand out */
+}
+
+input[type="text"],
+input[type="number"],
+/* Add other input types as needed */
+select,
+textarea {
+    width: calc(100% - 12px); /* Full width minus padding and border */
+    padding: 10px; /* Add padding inside the input fields */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 4px; /* Slightly rounded corners for input fields */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+    font-size: 16px; /* Readable font size */
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #007bff; /* Highlight the border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle focus shadow */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Bootstrap secondary button color */
+    color: #fff; /* White text color */
+    padding: 10px 20px; /* Padding inside the button */
+    border: none; /* Remove default button border */
+    border-radius: 4px; /* Rounded corners for the button */
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+    font-size: 16px; /* Readable font size */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Darker shade on hover */
+}
+
+.errorlist {
+    color: #dc3545; /* Bootstrap danger color for errors */
+    margin-top: 5px; /* Add some space above the error list */
+    padding-left: 20px; /* Indent the error list */
+    list-style-type: disc; /* Use disc bullets for the list */
+}

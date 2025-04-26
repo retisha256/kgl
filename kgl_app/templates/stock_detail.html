@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+    {% block content %}
+
+    <div>
+     <a href="{% url 'issue_item' stock.id %}"><input type="submit" value="Sell Item"></a>
+     <a href="{% url 'addstock' stock.id %}"><input type="submit" value="Add Item"></a>
+    </div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Category name</th>
+                <th>Item name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ stock.category_name }}</td>
+                <td>{{ stock.item_name }}</td>
+                <td>{{ stock.total_quantity }}</td>
+                <td> {{ stock.unit_price }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% endblock %}
+</body>
+</html>
+
+
+
+

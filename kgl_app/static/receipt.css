@@ -1,0 +1,79 @@
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 20px;
+}
+
+.receipt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Spacing between grid items */
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0; /* Subtle border */
+}
+
+.cardbody {
+    padding: 20px;
+    border-bottom: 1px dashed #ccc; /* Separator between sale details */
+}
+
+.cardbody:last-child {
+    border-bottom: none; /* No separator for the last sale detail */
+}
+
+h3 {
+    color: #495057; /* Dark gray heading */
+    font-size: 1.1rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+h2 {
+    color: #0a0faf; /* Blue for total price */
+    font-size: 1.4rem;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+h6.card-text {
+    color: #db0f64; /* Pink text */
+    font-size: 0.9rem;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+.btn-danger {
+    background-color: #b035dc; /* Purple button */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: none; /* Remove underline from link */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-danger:hover {
+    background-color: #f2f618; /* Yellow on hover */
+}
+
+/* Style the container for the button to align it to the right */
+.cardbody > div {
+    display: flex;
+    justify-content: flex-end; /* Align button to the right */
+    align-items: center; /* Vertically align items in the flex container */
+}
+
+/* Adjust margin for the button to create some space */
+.cardbody > div a {
+    margin-left: 10px;
+}

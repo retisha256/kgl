@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ stock.name_of_produce }} Details{% endblock %}
+
+{% block content %}
+    <h1>{{ stock.name_of_produce }} Details</h1>
+    <p>Type of Produce: {{ stock.type_of_produce }}</p>
+    <p>Date and Time: {{ stock.date_and_time_of_produce }}</p>
+    <p>Tonnage: {{ stock.tonnage }}</p>
+    <p>Cost: {{ stock.cost }}</p>
+    <p>Dealer: {{ stock.name_of_dealer }}</p>
+    <p>Branch: {{ stock.branch }}</p>
+    <p>Contact: {{ stock.contact }}</p>
+    <p>Selling Price: {{ stock.selling_price }}</p>
+    <p>Current Stock: {{ stock.current_stock }}</p>
+    <a href="{% url 'allstock' %}">Back to All Stock</a>
+{% endblock %}

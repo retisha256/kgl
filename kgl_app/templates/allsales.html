@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home - My Awesome Site{% endblock %}
+{% block title %}Home - KGL Website {% endblock %}
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,7 +16,6 @@
                        <th>Tonnage</th>
                        <th>Amount paid</th>
                        <th>Customer's name</th>
-                       <th>Date and time</th>
                        <th>Sales agent</th>
                        <th>is sold on cash</th>
                        <th>Branch</th>
@@ -31,10 +30,9 @@
                <tbody>
                    <tr>
                        <td>{{ Sales.product_name }}</td>
-                       <td>{{ Sales.tonnage }}</td>
+                       <td>{{ Sales.tonnage }}kg</td>
                        <td>{{ Sales.amount_paid }}</td>
                        <td>{{ Sales.buyers_name }}</td>
-                       <td>{{ Sales.date_and_time }}</td>
                        <td>{{ Sales.salesagent_name }}</td>
                        <td>{{ Sales.is_sold_on_cash }}</td>
                        <td>{{ Sales.branch }}</td>

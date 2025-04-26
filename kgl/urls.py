@@ -17,16 +17,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from kgl_app import views
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.index,name='index'),
+    path('',auth_views.LoginView.as_view(template_name='login.html'),name="login"),
     path('dash/',views.dash,name='dash'),
-    path('addstock/',views.addstock,name='addstock'),
+     path('addstock/<str:pk>/',views.addstock, name="addstock") , 
+     path('login/',views.Login, name="Login"),
     path('addsales/',views.addsales,name='addsales'),
-    path('allstock/',views.allstock,name='allstock'),
+    path('home/',views.allstock,name='allstock'),
+   # path('allstock/<int:stock_id>/', views.stock_detail, name="stock_detail"),
+    path ('signup/', views.signup, name="signup"),
+    path('issue_item/<str:pk>/',views.issue_item, name ='issue_item'),
+    path('home/<int:stock_id>/', views.detail, name="detail"),
     path('allsales/',views.allsales,name='allsales'),
     path('addcredit/',views.addcredit,name='addcredit'),
-    path('receipt/',views.receipt,name='receipt')
+    path('receipt/',views.receipt,name='receipt'),
+    
 
 ]
