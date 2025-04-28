@@ -1,0 +1,28 @@
+
+
+{% block content %}
+    <h1>Create Sale</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="product_name">Product:</label>
+        <select name="product_name" required>
+            {% for stock in stocks %}
+                <option value="{{ stock.id }}">{{ stock.name_of_produce }} ({{stock.branch}}) - Stock: {{stock.current_stock}}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="tonnage">Tonnage:</label>
+        <input type="number" name="tonnage" required><br>
+
+        <label for="amount_paid">Amount Paid:</label>
+        <input type="number" name="amount_paid" required><br>
+
+        <label for="buyers_name">Buyer's Name:</label>
+        <input type="text" name="buyers_name" required><br>
+
+        <label for="is_sold_on_cash">Sold on Cash:</label>
+        <input type="checkbox" name="is_sold_on_cash"><br>
+
+        <input type="submit" value="Create Sale">
+    </form>
+{% endblock %}

@@ -1,11 +1,12 @@
-{% extends 'base.html' %}
+
 {% load static %}
 
-{% block title %}Home - KGL Website {% endblock %}
+{% block title %}KGL Website {% endblock %}
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="{% static 'dash.css' %}">
+    <link rel="stylesheet" href="{% static 'allsales.css' %}">
+
 
         {% block content %}    
            <h1>All sales</h1>
@@ -14,13 +15,13 @@
                    <tr>
                        <th>Product name</th>
                        <th>Tonnage</th>
-                       <th>Amount paid</th>
+                       <th>Amount </th>
                        <th>Customer's name</th>
                        <th>Sales agent</th>
                        <th>is sold on cash</th>
                        <th>Branch</th>
-                       <th><a href="">view</a></th>
-                       <th><a href="">delete</a></th>
+                       <th>Action</th>
+                       <th>Action</th>
                        
                        
                        
@@ -31,12 +32,13 @@
                    <tr>
                        <td>{{ Sales.product_name }}</td>
                        <td>{{ Sales.tonnage }}kg</td>
-                       <td>{{ Sales.amount_paid }}</td>
+                       <td>{{ Sales.total_sales }}</td>
                        <td>{{ Sales.buyers_name }}</td>
                        <td>{{ Sales.salesagent_name }}</td>
                        <td>{{ Sales.is_sold_on_cash }}</td>
                        <td>{{ Sales.branch }}</td>
-                       
+                       <td><a href="{% url 'view_sale' sale_id=Sales.id %}"><input type="submit"value="View"></a></td>
+                       <td><a href="{% url 'delete_sale' sale_id=Sales.id %}"><input type="submit" value="delete" style="background-color: red; color: white;"></a></td>
                    </tr>
                </tbody>
                {% endfor %}

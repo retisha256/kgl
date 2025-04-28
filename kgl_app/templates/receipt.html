@@ -15,14 +15,18 @@
     <div class="card">
         {% for sale in sales %}
         <div class="cardbody">
-            <h3>Customer:{{ sale.customer_name }}</h3>
+            <h3>Customer:{{ sale.buyers_name }}</h3>
             <h3>Item: {{ sale.product_name }}</h3>
-            <h3>Amount paid:{{ sale.amount_received }}</h3>
-            <h3>Quantity:{{ sale.quantity}}</h3>
-            <h2>Total price: Ugx{{ sale.get_total }}</h2>
+            <h3>Unit price: {{ sale.selling_price }}</h3>
+            <h3>Amount paid:{{ sale.amount_paid }}</h3>
+            <h3>Quantity:{{ sale.tonnage}}</h3>
+            <h2>Total price: Ugx{{ sale.total_sales }}</h2>
+
             <div style="flex:1;">
                 <h6 class="card-text">
-                    Change Collected: Ugx {{ sale.get_change}}
+                    Change Collected: Ugx {{ sale.calculate_change}}
+
+                
 
                 </h6>
                 <a href="{% url 'receipt_detail' sale.id %}"><input type="submit" value="Final Receipt"class='btn btn-danger'></a>

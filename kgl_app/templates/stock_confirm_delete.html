@@ -1,0 +1,117 @@
+{% block content %}
+    <div class="delete-confirmation-container">
+        <h1 class="delete-confirmation-title">Delete Stock</h1>
+        <p class="delete-confirmation-text">Are you sure you want to delete this stock item?</p>
+        <div class="delete-confirmation-details">
+            <p><span class="detail-label">Product Name:</span> {{ stock.name_of_produce }}</p>
+            <p><span class="detail-label">Tonnage:</span> {{ stock.tonnage }}</p>
+        </div>
+        <form method="post" class="delete-confirmation-form">
+            {% csrf_token %}
+            <input type="submit" value="Confirm Delete" class="confirm-delete-button">
+            <a href="{% url 'stock' %}" class="cancel-button">Cancel</a>
+        </form>
+    </div>
+    <style>
+.delete-confirmation-container {
+  background-color: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+  max-width: 600px;
+  margin: 50px auto;
+  border: 1px solid #edf2f7;
+}
+
+.delete-confirmation-title {
+  color: #e53e3e;
+  font-size: 32px;
+  margin-bottom: 24px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.delete-confirmation-text {
+  color: #4a5568;
+  font-size: 20px;
+  margin-bottom: 28px;
+  line-height: 1.7;
+}
+
+.delete-confirmation-details {
+  text-align: left;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.delete-confirmation-details p {
+  margin-bottom: 12px;
+}
+
+.detail-label {
+  font-weight: 700;
+  color: #718096;
+  margin-right: 15px;
+  display: inline-block;
+  width: 140px;
+  text-align: left;
+}
+
+.delete-confirmation-form {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.confirm-delete-button {
+  background-color: #e53e3e;
+  color: #fff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.confirm-delete-button:hover {
+  background-color: #c53030;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.confirm-delete-button:active {
+  background-color: #a71d2a;
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-button {
+  background-color: #f0f0f0;
+  color: #4a5568;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cancel-button:active {
+  background-color: #d0d0d0;
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+    </style>
+{% endblock %}

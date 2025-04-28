@@ -1,0 +1,41 @@
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'allsales.css' %}">
+{% block title %}Sales for {{ branch_name }} {% endblock %}
+
+{% block content %}
+    <h1>Sales for Branch: {{ branch_name }}</h1>
+    <table>
+        <thead>
+            <tr>
+                 <th>Product name</th>
+                 <th>Tonnage</th>
+                 <th>Amount </th>
+                 <th>Customer's name</th>
+                 <th>Sales agent</th>
+                 <th>is sold on cash</th>
+                 <th>Branch</th>
+                 <th>Action</th>
+                 <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                 <td>{{ sale.product_name }}</td>
+                 <td>{{ sale.tonnage }}kg</td>
+                 <td>{{ sale.total_sales }}</td>
+                 <td>{{ sale.buyers_name }}</td>
+                 <td>{{ sale.salesagent_name }}</td>
+                 <td>{{ sale.is_sold_on_cash }}</td>
+                 <td>{{ sale.branch }}</td>
+                 <td><a href="{% url 'view_sale' sale_id=sale.id %}"><input type="submit" value="View"></a></td>
+                 <td><a href="{% url 'delete_sale' sale_id=sale.id %}"><input type="submit" value="delete" style="background-color: red; color: white;"></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+     <br><br>
+
+<a href="{% url 'allsales' %}" class="back-to-sales-button">Back to All Sales</a>
+{% endblock %}

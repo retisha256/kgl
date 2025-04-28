@@ -1,0 +1,78 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    table {
+    width: 60%; /* Adjust as needed */
+    border-collapse: collapse; /* Remove default spacing between cells */
+    margin-left:50px; /* Center the table on the page */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  th, td {
+    border: 1px solid #ddd; /* Light gray border for cells */
+    padding: 8px;
+    text-align: left; /* Align text to the left by default */
+  }
+
+  th {
+    background-color: #f2f2f2; /* Light gray background for headers */
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row color */
+  }
+
+  tr:hover {
+    background-color: #e0e0e0; /* Hover effect */
+  }
+
+  .center-text {
+    text-align: center;
+  }
+</style>
+
+</head>
+    
+
+    
+
+<body>
+         
+    
+{% block content %}
+    <h1>Credit table</h1>
+    <table>
+        <thead>
+            <tr>
+            <th>Customer name</th>
+            <th>NIN</th>
+            <th>Product</th>
+            <th>Dispatch date</th>
+         
+        </tr>
+        {% for credit in credit %}
+        </thead>
+        <tbody>
+            <tr>
+            <td>{{ credit.buyer_name }}</td>
+            <td>{{ credit.NIN }}</td>
+            <td>{{ credit.product_name}}</td>
+            <td>{{ credit.Dispatch_date }}</td>
+            >
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+{% endblock %}    
+    
+
+</body>
+</html>
