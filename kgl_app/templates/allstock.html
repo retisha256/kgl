@@ -1,60 +1,57 @@
-{% extends 'base.html' %}
+
 {% load static %}
-
-{% block title %}Home - My Awesome Site{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOOD MANAGEMENT SYSTEM</title>
+    <link rel="stylesheet" href="{% static 'allsales.css' %}">
+    <style>
+        input[type="submit"] {
+    background-color: #135a79;
+    color: white;
    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="{% static 'dash.css' %}">
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+input[type="submit"]:hover {
+    background-color: #0056b3;}
 
-
+    </style>
   
-
-        {% block content %}    
-           <h1>All stock</h1>
-           <table >
-               <thead>
-                   <tr>
-                       <th>Produce name</th>
-                       <th>Type of produce</th>
-                      
-                       <th>Tonnage</th>
-                       <th>Cost</th>
-                       <th>Name of dealer</th>
-                       <th>Branch</th>
-                      
-                       <th>Selling price</th>
-                       <th>Current stock</th>
-                       <th><a href="detail/{{stock.id }}" ><input type="submit" value="View" class="btn btn-primary btn">
-                        </a></th>
-                       
-                       
-                       
-                       
-                   </tr>
-               </thead>
-               {% for Stock in stocks %}
-               <tbody>
-                   <tr>
-                       <td>{{ Stock.name_of_produce }}</td>
-                       <td>{{ Stock.type_of_produce }}</td>
-                
-                       <td>{{ Stock.tonnage  }}</td>
-                       <td>{{ Stock.cost }}</td>
-                       <td>{{ Stock.name_of_dealer }}</td>
-                       <td>{{ Stock.branch }}</td>
-                       <td>{{ Stock.selling_price }}</td>
-                       <td>{{ Stock.current_stock  }}</td>
-                       <td><a href="detail/{{stock.id }}" ><input type="submit" value="View" class="btn btn-primary btn">
-                       </a></td>
-
-                   </tr>
-               </tbody>
-               {% endfor %}
-           </table>
-        {% endblock %}
-        
-    
+</head>
+<body>
+    {% block content %}
+    <h1>Table for stock</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Product name</th>
+                <th>Tonnage</th>
+                <th>Cost</th>
+                <th>supplier</th>
+                <th>Action</th>
+            </tr>
+            {% for stock in stocks %}
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ stock.name_of_produce }}</td>
+                <td>{{ stock.tonnage }}</td>
+                <td>{{ stock.cost }}</td>
+                <td>{{ stock.name_of_dealer }}</td>
+                <td><a href="{% url 'detail' stock.id %}"><input type="submit" value ="Checkout Item"></a></td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+    {% endblock %}
+   
 </body>
 </html>
-   

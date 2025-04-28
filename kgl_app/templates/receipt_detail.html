@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .card_header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .card_header h1 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .card_header h2 {
+            color: #555;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .card-block {
+            padding: 20px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .table thead th {
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .table tbody td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-xs-center {
+            text-align: center;
+        }
+
+        .text-xs-right {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="card_header">
+            <h1 class="text-center">Order Summary</h1>
+            <br>
+            <h2 class="lead">Customer name: {{ receipt.buyers_name }}</h2>
+        </div>
+        <div class="card-block">
+            <div class="table-responsive">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th><strong>Item-name</strong></th>
+                            <th class="text-xs-center"><strong>Item Quantity</strong></th>
+                            <th class="text-xs-right"><strong>Total Bill</strong></th>
+                            <th class="text-xs-right"><strong>Amount Paid</strong></th>
+                            <th class="text-xs-right">Total Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ receipt.product_name }}</td>
+                            <td class="text-xs-center">{{ receipt.quantity }}</td>
+                            <td class="text-xs-right">{{ receipt.get_total }}</td>
+                            <td class="text-xs-right">{{ receipt.amount_received }}</td>
+                            <td class="text-xs-right">{{ receipt.get_change }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

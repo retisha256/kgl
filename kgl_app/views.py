@@ -18,15 +18,15 @@ def Login(request):
         user =authenticate(request, username = username,password=password)
         if user is not None and user.is_owner==True:
             form =login(request,user)
-            return redirect('/dashboard3')
+            return redirect('/dashboard2/')
         
         if user is not None and user.is_manager==True:
             form =login(request,user)
-            return redirect('/dashboard1')
+            return redirect('/dashboard1/')
         
         if user is not None and user.is_salesagent==True:
             form =login(request,user)
-            return redirect('/dashboard2')
+            return redirect('/dashboard1/')
         else:
             print("Sorry!, something went wrong")
     form = AuthenticationForm()
@@ -92,7 +92,7 @@ def allstock(request):
 
 def  detail(request, stock_id):
     stock =Stock.objects.get(id=stock_id)
-    return render(request,'stock_detail.html' ,{'stock':stock})
+    return render(request,'detail.html' ,{'stock':stock})
 
 def issue_item(request,pk):
     #creating a variable issued item and access all entries in the stock model by their id
@@ -104,16 +104,16 @@ def issue_item(request,pk):
 
         if sales_form.is_valid():
             new_sale =sales_form.save(commit = False)
-            new_sale.item_name = issued_item
-            new_sale.unit_price = issued_item.unit_price
+            new_sale.name_of_produce = issued_item
+            new_sale.selling_price = issued_item.selling_price
             new_sale.save()
             #To keep track of the stock after sales
-            issued_quantity =int(request.POST['quantity'])
-            issued_item.total_quantity -= issued_quantity
+            issued_quantity =int(request.POST['tonnage'])
+            issued_item.tonnage -= issued_quantity
             issued_item.save()
-            print(issued_item.item_name)
-            print(request.POST['quantity'])
-            print(issued_item.total_quantity)
+            print(issued_item.name_of_produce)
+            print(request.POST['tonnage'])
+            print(issued_item.tonnage)
 
             return redirect('receipt')
     return render(request,'issue_item.html',{'sales_form':sales_form}) 
@@ -123,3 +123,12 @@ def receipt_detail(request,receipt_id):
     return render (request,  'receipt_detail.html', {'receipt':receipt})
 def addcredit(request):
     return render(request,'addcredit')
+def manager(request):
+    return render (request,"dash1.html" )
+
+#view for the owner
+def owner(request):
+    return render(request, "dash1.html")
+#view for salesagent
+def salesagent(request):
+    return render (request,'dash1.html')
