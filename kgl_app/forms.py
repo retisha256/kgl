@@ -1,6 +1,10 @@
 from django.forms import ModelForm
 from .models import *
 from django.contrib.auth.forms import UserCreationForm
+from django import forms
+
+
+
 
 
 class AddStockForm(ModelForm):
@@ -34,3 +38,15 @@ class UserCreation(UserCreationForm):
             user.is_staff=True
             user.save()
             return user 
+
+class SalesAgentSignUpForm(UserCreationForm):
+    branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True)  # Make it required
+
+    class Meta(UserCreationForm.Meta):
+        model = Userprofile
+        fields = ('username', 'email', 'branch')  # Include 'branch' in the fields
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].help_text = None
+        self.fields['email'].help_text = None

@@ -24,6 +24,7 @@
                 <th>supplier</th>
                 <th>Action</th>
                 <th>Action</th>
+                
             </tr>
             {% for stock in stocks %}
         </thead>
@@ -34,6 +35,7 @@
                 <td>{{ stock.cost }}</td>
                 <td>{{ stock.name_of_dealer }}</td>
                 <td><a href="{% url 'detail' stock.id %}"><input type="submit" value ="Checkout Item"></a></td>
+               
                 <td><a href="{% url 'delete_stock' stock_id=stock.id%}"><input type="submit" value="delete" style="background-color: red; color: white;"></a></td>
             </tr>
         </tbody>

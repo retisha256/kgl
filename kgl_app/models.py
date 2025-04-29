@@ -6,6 +6,13 @@ from django.contrib.auth.models import AbstractUser,Permission,Group
 
 
 
+class Branch(models.Model):
+    branch_name = models.CharField(max_length=50)
+    location = models.CharField(max_length=100)
+    def __str__(self):
+        return self.branch_name
+
+
 
 # Create User table called user profile using Abstract user from line 3
 class Userprofile(AbstractUser):
@@ -17,6 +24,7 @@ class Userprofile(AbstractUser):
     address = models.CharField(max_length=50, blank=True)
     phonenumber =models.CharField(max_length= 20,blank=True)
     gender = models.CharField(max_length=10, blank=True)
+    branch = models.ForeignKey(Branch, on_delete=models.SET_NULL, null=True, blank=True, related_name="users")  
     # Override default reverse accessors to avoid conflicts
     groups = models.ManyToManyField(
         Group,
@@ -37,11 +45,6 @@ class Userprofile(AbstractUser):
         return self.username
 
 #branch model
-class Branch(models.Model):
-    branch_name = models.CharField(max_length=50)
-    location = models.CharField(max_length=100)
-    def __str__(self):
-        return self.branch_name
 
    
 #produce model
@@ -55,17 +58,17 @@ class ProduceType(models.Model):
 #stock model
 class Stock(models.Model):
     name_of_produce=models.CharField(max_length =255)
-    type_of_produce =models.ForeignKey(ProduceType,on_delete=models.CASCADE)
+    type_of_produce =models.ForeignKey(ProduceType,on_delete=models.CASCADE,null=False,)
     date_and_time_of_produce= models.DateTimeField(auto_now_add =True)
-    received_quantity = models.IntegerField(blank=False,null=True)
-    issued_quantity=models.IntegerField(blank=False,null=True)
-    tonnage =models.IntegerField(blank = False)
+    received_quantity = models.IntegerField(blank=False,null=False,default=0)
+    issued_quantity=models.IntegerField(blank=False,null=False,default=0)
+    tonnage =models.IntegerField(blank = False,null=False,default=0)
     cost=models.IntegerField(blank =False,default=25)   
     name_of_dealer=models.CharField(max_length=255)
-    branch=models.ForeignKey(Branch, on_delete=models.CASCADE,null=True)
-    contact=models.CharField(default=20)
+    branch=models.ForeignKey(Branch, on_delete=models.CASCADE,null=False,default=0)
+    contact=models.CharField(default=20,null=False)
     selling_price=models.IntegerField(null=True,blank=True)
-    
+    current_stock =models.IntegerField(null=True,blank=False)
 #calculating the profit
     def profit_margin(self):
         return self.selling_price - self.cost

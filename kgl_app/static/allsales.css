@@ -69,3 +69,21 @@ input[type="submit"]:hover {
 .back-to-sales-button:active {
     background-color: #2b5e2e;
 }
+.edit-button {
+  background-color: #008CBA; /* Blue */
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #007ba7; /* Darker blue */
+}
+
+.edit-button:active{
+  background-color: #00566b;
+}

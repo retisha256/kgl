@@ -1,68 +1,61 @@
+{% extends 'base.html' %}
 
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Owner's Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/feather-icons"></script>
-    <link rel="stylesheet" href="/static/dash.css">
-    <style>
-        /* Your CSS styles here */
-    </style>
-</head>
-<body>
-    
-    <div class="sidebar">
-        <h1>KGL</h1>
-        <ul>
-            <li><a href="#"><i data-feather="layout"></i> Dashboard</a></li>
-            <li><a href="#"><i data-feather="plus-square"></i> Stock</a></li>
-            <li><a href="#"><i data-feather="shopping-cart"></i> Sales</a></li>
-            <li><a href="#"><i data-feather="credit-card"></i> Credit</a></li>
-            <li><a href="#"><i data-feather="bar-chart-2"></i> Reports</a></li>
-            <li><a href="#"><i data-feather="log-out"></i><input type="button" value="Logout"> </a></li>
-        </ul>
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                Karibu Groceries Ltd
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action">Dashboard</a>
+                <a href="{% url 'allsales' %}" class="list-group-item list-group-item-action">View All Sales</a>
+                <a href="{% url 'allstock' %}" class="list-group-item list-group-item-action">View Stock</a>
+                <a href="{% url 'receipt' %}" class="list-group-item list-group-item-action">View Receipts</a>
+                <a href="{% url 'addcredit' %}" class="list-group-item list-group-item-action">View Credit</a>
+                <a href="{% url 'logout' %}" class="list-group-item list-group-item-action">Logout</a>
+            </div>
+        </div>
     </div>
-    
-
-    
-    <main class="main-content">
-        <div class="top-bar">
-            <h2>Owner's Dashboard</h2>
+    <div class="col-md-9">
+        <h1>Sales Agent Dashboard</h1>
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Recent Transactions</h2>
+                
+                {% if my_sales %}
+                <ul>
+                    {% for sale in my_sales %}
+                    
+                        <h6>Product: {{ sale.product_name }}</h6>
+                        <h6>Quantity: {{ sale.tonnage }}</h6>
+                        <h6>Date: {{ sale.date_and_time }}</h6>
+                         <h6>Branch: {{ sale.branch }}</h6>
+                         <h6>Price: {{ sale.selling_price }}</h6>
+                         <hr>
+                         <h6>Amount:{{ total_sales }}</h6>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No recent transactions.</p>
+                {% endif %}
+                <h1>Total Sales:{{total_sales_amount}} </h1>
+            </div>
         </div>
-        <div class="summary-cards">
-            <div class="summary-card">
-                <h3>Total Sales</h3>
-                <p>Total Sales: </p>  </div>
-            <div class="summary-card">
-                <h3>Purchases</h3>
-                <p>$4,385</p>
-            </div>
-            <div class="summary-card">
-                <h3>Total Revenue</h3>
-                <p>$38,565.5</p>
-            </div>
-            <div class="summary-card">
-                <h3>Total Products</h3>
-                <p>40,000</p>
-            </div>
-        </div>
+    </div>
+</div>
+{% endblock %}
 
-    </main>
-    
-
-    <footer>
-        <p>&copy; Karibu Groceries Limited 2025</p>
-    </footer>
-    <script>
-        feather.replace();
-    </script>
-</body>
-</html>
+{% block styles %}
+{{ block.super }}
+<style>
+    .list-group-item.active {
+        background-color: #3498db;
+        border-color: #3498db;
+        color: white;
+    }
+    .list-group-item:hover {
+        background-color: #f0f0f0;
+    }
+</style>
+{% endblock %}

@@ -55,6 +55,7 @@
             <th>NIN</th>
             <th>Product</th>
             <th>Dispatch date</th>
+            
          
         </tr>
         {% for credit in credit %}
@@ -65,7 +66,9 @@
             <td>{{ credit.NIN }}</td>
             <td>{{ credit.product_name}}</td>
             <td>{{ credit.Dispatch_date }}</td>
-            >
+            
+            
+              
         </tr>
         </tbody>
         {% endfor %}

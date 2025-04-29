@@ -1,0 +1,164 @@
+ .sale-form {
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #eee;
+    }
+  
+    .form-title {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-align: center;
+      /* Center the heading */
+    }
+  
+    .form-group {
+      margin-bottom: 25px;
+    }
+  
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #34495e;
+      font-weight: 500;
+      font-size: 1em;
+    }
+  
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 1.1em;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+  
+    .form-control:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    }
+  
+    .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 1.1em;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+  
+    .form-select:focus {
+      outline: none;
+      border-color: #4CAF50;
+      box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+    }
+  
+    .form-check-input {
+      margin-top: 0.3em;
+      margin-right: 0.5em;
+    }
+  
+    .form-check-label {
+      font-size: 1.1em;
+      color: #34495e;
+    }
+  
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+  
+  
+    .save-button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      width: 48%;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  
+    .save-button:hover {
+      background-color: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+    }
+  
+    .save-button:active {
+      background-color: #388e3c;
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+  
+    .save-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+    }
+  
+    .cancel-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      width: 48%;
+      margin-top: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+  
+    .cancel-button:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2);
+    }
+  
+    .cancel-button:active {
+      background-color: #a93226;
+      transform: translateY(0);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+  
+    .cancel-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+    }
+  
+    @media (max-width: 600px) {
+      .sale-form {
+        padding: 20px;
+      }
+  
+      .form-control {
+        font-size: 1em;
+      }
+  
+      .save-button,
+      .cancel-button {
+        font-size: 1em;
+        padding: 10px 20px;
+        width: 100%;
+        margin-top: 10px;
+      }
+  
+      .button-container {
+        flex-direction: column;
+      }
+  
+      .form-group label {
+        font-size: 1em;
+      }
+    }

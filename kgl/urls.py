@@ -33,7 +33,7 @@ urlpatterns = [
     path('logout/',auth_views.LogoutView.as_view(template_name='logout.html'),name="logout"),
     path('issue_item/<str:pk>/',views.issue_item, name ='issue_item'),
     path('allstock/<int:stock_id>/', views.detail, name="detail"),
-  path('stock/delete/<int:stock_id>/', views.delete_stock, name='delete_stock'),
+    path('stock/delete/<int:stock_id>/', views.delete_stock, name='delete_stock'),
     path('allsales/',views.allsales,name='allsales'),
     path("receipt/<int:receipt_id>/",views.receipt_detail, name="receipt_detail"),
     path('stock/',views.allstock,name='stock'),
@@ -47,6 +47,6 @@ urlpatterns = [
     path('sales/delete/<int:sale_id>/', views.delete_sale, name='delete_sale'),
     path('sales/branch/<str:branch_name>/', views.branch_sales, name='branch_sales'),
     path('sales/report/', views.sales_report, name='sales_report'),
-    path('sales/create/', views.create_sale, name='create_sale'),
-
+    path('sales/edit/<int:sale_id>/', views.edit_sale, name='edit_sale'),
+    path('dashboard/', views.dashboard, name='dashboard'),
 ]

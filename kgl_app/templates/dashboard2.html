@@ -1,1 +1,60 @@
-{% extends 'base.html' %}
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Owner Dashboard{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Karibu Groceries Ltd</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                        </li>
+                    {% endif %}
+
+{% block content %}
+    <h1>Owner Dashboard</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Overall Sales</h2>
+                    <p>Total Sales Amount: {{ total_sales_amount }}</p>
+                    <p>Total Sales Count: {{ total_sales_count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+           <div class="card">
+               <div class="card-body">
+                   <h2 class="card-title">Branch Sales</h2>
+                   <ul>
+                   {% for branch_data in branch_sales_data %}
+                       <li>{{ branch_data.branch_name }}: {{ branch_data.total_sales }}</li>
+                   {% endfor %}
+                   </ul>
+               </div>
+           </div>
+        </div>
+    </div>
+
+    {% endblock %}

@@ -1,0 +1,53 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'edit.css'%}">
+  {% block content %}
+  
+  <form method="post" class="sale-form">
+    <h1>Edit Sale</h1>
+    {% csrf_token %}
+    {% if form.errors %}
+    <div class="alert alert-danger">
+      {{ form.errors }}
+    </div>
+    {% endif %}
+  
+    <div class="form-group">
+      <label for="{{ form.product_name.id_for_label }}">Product:</label>
+      {{ form.product_name }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.tonnage.id_for_label }}">Tonnage:</label>
+      {{ form.tonnage }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.amount_paid.id_for_label }}">Amount Paid:</label>
+      {{ form.amount_paid }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.buyers_name.id_for_label }}">Buyer's Name:</label>
+      {{ form.buyers_name }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.salesagent_name.id_for_label }}">Sales Agent:</label>
+      {{ form.salesagent_name }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.is_sold_on_cash.id_for_label }}">Sold on Cash:</label>
+      {{ form.is_sold_on_cash }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.branch.id_for_label }}">Branch:</label>
+      {{ form.branch }}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.selling_price.id_for_label }}">Selling Price</label>
+      {{ form.selling_price }}
+    </div>
+  
+    <div class="button-container">
+      <button type="submit" class="save-button">Save Changes</button>
+      <a href="{% url 'allsales' %}" class="cancel-button">Cancel</a>
+    </div>
+  </form>
+  {% endblock %}
+  
