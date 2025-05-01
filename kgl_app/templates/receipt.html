@@ -2,41 +2,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt</title>
-    <link rel="stylesheet" href="{% static 'receipt.css' %}">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Receipt</title>
+  <link rel="stylesheet" href="{% static 'receipt.css' %}">
+  
 
 </head>
 <body>
-    {% block content %}
-    <div class="receipt-grid">
+  {% block content %}
+  <div class="receipt-grid">
+    {% for sale in sales %}
     <div class="card">
-        {% for sale in sales %}
-        <div class="cardbody">
-            <h3>Customer:{{ sale.buyers_name }}</h3>
-            <h3>Item: {{ sale.product_name }}</h3>
-            <h3>Unit price: {{ sale.selling_price }}</h3>
-            <h3>Amount paid:{{ sale.amount_paid }}</h3>
-            <h3>Quantity:{{ sale.tonnage}}</h3>
-            <h2>Total price: Ugx{{ sale.total_sales }}</h2>
+      <div class="cardbody">
+        <h3>Customer: {{ sale.buyers_name }}</h3>
+        <h3>Item: {{ sale.product_name }}</h3>
+        <h3>Unit price: {{ sale.selling_price }}</h3>
+        <h3>Amount paid: {{ sale.amount_paid }}</h3>
+        <h3>Quantity: {{ sale.tonnage }}</h3>
+        <h2>Total price: Ugx {{ sale.total_sales }}</h2>
 
-            <div style="flex:1;">
-                <h6 class="card-text">
-                    Change Collected: Ugx {{ sale.calculate_change}}
-
-                
-
-                </h6>
-                <a href="{% url 'receipt_detail' sale.id %}"><input type="submit" value="Final Receipt"class='btn btn-danger'></a>
-            </div>
+        <div style="flex:1;">
+          <h6 class="card-text">
+            Change Collected: Ugx {{ sale.calculate_change }}
+          </h6>
+          <a href="{% url 'receipt_detail' sale.id %}"><input type="submit" value="Final Receipt" class='btn btn-danger me-2'></a>
         </div>
-
+      </div>
     </div>
-
-       {% endfor %}
-    </div>
-    {% endblock %}
+    {% endfor %}
+  </div>
+  <div class="mt-3">
+    <a href="{% url 'dashboard' %}" style="background-color: rgb(7, 39, 84)";>Back to Dashboard</a>
+  </div>
+  {% endblock %}
 </body>
 </html>

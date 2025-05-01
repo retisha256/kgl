@@ -22,15 +22,15 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('',auth_views.LoginView.as_view(template_name='login.html'),name="login"),
-    path('dash/',views.dash,name='dash'),
+   # path('',auth_views.LoginView.as_view(template_name='login.html'),name="login"),
+    path('',views.index,name='dash'),
      path('addstock/<str:pk>/',views.addstock, name="addstock") , 
-     path('login/',views.Login, name="Login"),
+     path('login/',views.Login, name="login"),
     path('addsales/',views.addsales,name='addsales'),
     path('allstock/',views.allstock,name='allstock'),
    
     path ('signup/', views.signup, name="signup"),
-    path('logout/',auth_views.LogoutView.as_view(template_name='logout.html'),name="logout"),
+    #path('logout/',auth_views.LogoutView.as_view(template_name='logout.html'),name="logout"),
     path('issue_item/<str:pk>/',views.issue_item, name ='issue_item'),
     path('allstock/<int:stock_id>/', views.detail, name="detail"),
     path('stock/delete/<int:stock_id>/', views.delete_stock, name='delete_stock'),
@@ -44,9 +44,14 @@ urlpatterns = [
     path ('dashboard2/',views.owner,name="owner"),
     path('logout/',views.Logout, name="logout"),
     path('sales/<int:sale_id>/', views.view_sale, name='view_sale'),
+    path('sales/add/', views.addsale, name='addsale'),
+
     path('sales/delete/<int:sale_id>/', views.delete_sale, name='delete_sale'),
     path('sales/branch/<str:branch_name>/', views.branch_sales, name='branch_sales'),
     path('sales/report/', views.sales_report, name='sales_report'),
     path('sales/edit/<int:sale_id>/', views.edit_sale, name='edit_sale'),
-    path('dashboard/', views.dashboard, name='dashboard'),
+    #path('dashboard/', views.dashboard, name='dashboard'),
+     path('credit/add/', views.add_credit, name='add_credit'),
+    path('credit/delete/', views.delete_credit_list, name='delete_credit_list'),
+    path('credit/delete/<int:credit_id>/', views.delete_credit, name='delete_credit'),
 ]

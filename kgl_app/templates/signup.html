@@ -10,10 +10,11 @@
     <link rel="stylesheet" href="{% static 'sign.css' %}">
     <title>Document</title>
 </head>
-<body>
+<body> 
+    
     {% if request.user.is_authenticated %}
     <div class="flex item-center space-x-4 px-6">
-        <a href=""><input type="button" value="logout"></a>
+       
         {% else %}
         <a href=""><input type="button" value="Login"></a>
 
@@ -22,8 +23,9 @@
     {% block content %}
     <form action=""method="POST">
         {% csrf_token %}
+        <h1><strong>Signup</strong></h1>
         {{ form | crispy}}
-        <input type="submit" value="Register">
+        <input type="submit" value="Register"style="background-color: #0b3d55; color: white; border-radius: 12px; padding: 10px 20px; width:50%; cursor: pointer;">
     </form>
     {% endblock %}
 </body>

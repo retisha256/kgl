@@ -16,6 +16,7 @@ class Branch(models.Model):
 
 # Create User table called user profile using Abstract user from line 3
 class Userprofile(AbstractUser):
+    managed_branches = models.ManyToManyField(Branch, related_name="managers", blank=True)
     is_salesagent= models.BooleanField(default=False)
     is_manager= models.BooleanField(default=False)
     is_owner= models.BooleanField(default=False)

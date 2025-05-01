@@ -1,36 +1,63 @@
 
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+{% extends 'base.html' %}
 <style>
-    table {
-    width: 60%; /* Adjust as needed */
-    border-collapse: collapse; /* Remove default spacing between cells */
-    margin-left:50px; /* Center the table on the page */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  body {
+    font-family: sans-serif;
+    margin: 20px;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    margin-bottom: 15px;
+  }
+
+  .button-container a {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    margin-left: 10px;
+  }
+
+  .add-button {
+    background-color: #28a745; /* Green */
+    width: 90px;
+  }
+
+  
+
+  table {
+    width: 80%; /* Adjust as needed */
+    border-collapse: collapse;
+    margin: 0 auto; /* Center the table */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
   th, td {
-    border: 1px solid #ddd; /* Light gray border for cells */
+    border: 1px solid #ddd;
     padding: 8px;
-    text-align: left; /* Align text to the left by default */
+    text-align: left;
   }
 
   th {
-    background-color: #f2f2f2; /* Light gray background for headers */
+    background-color: #f2f2f2;
     font-weight: bold;
   }
 
   tr:nth-child(even) {
-    background-color: #f9f9f9; /* Alternating row color */
+    background-color: #f9f9f9;
   }
 
   tr:hover {
-    background-color: #e0e0e0; /* Hover effect */
+    background-color: #e0e0e0;
   }
 
   .center-text {
@@ -39,43 +66,48 @@
 </style>
 
 </head>
-    
+  
 
-    
+  
 
 <body>
-         
     
+  
 {% block content %}
-    <h1>Credit table</h1>
-    <table>
-        <thead>
-            <tr>
-            <th>Customer name</th>
-            <th>NIN</th>
-            <th>Product</th>
-            <th>Dispatch date</th>
-            
-         
-        </tr>
-        {% for credit in credit %}
-        </thead>
-        <tbody>
-            <tr>
-            <td>{{ credit.buyer_name }}</td>
-            <td>{{ credit.NIN }}</td>
-            <td>{{ credit.product_name}}</td>
-            <td>{{ credit.Dispatch_date }}</td>
-            
-            
-              
-        </tr>
-        </tbody>
-        {% endfor %}
-    </table>
+  <h1>Credit Table</h1>
 
-{% endblock %}    
-    
+  
+
+  <table>
+    <thead>
+      <tr>
+      <th>Customer name</th>
+      <th>NIN</th>
+      <th>Product</th>
+      <th>Dispatch date</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+      {% for credit in credit %}
+      <tr>
+      <td>{{ credit.buyer_name }}</td>
+      <td>{{ credit.NIN }}</td>
+      <td>{{ credit.product_name}}</td>
+      <td>{{ credit.Dispatch_date }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="center-text">No credit entries found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br><br>
+  <div class="button-container">
+    <a href="{% url 'add_credit' %}" class="add-button"  style="background-color: #28a745;">Add Credit</a>
+    <a href="{% url 'delete_credit_list' %}" class="delete-button" style="">Delete Credit</a>
+  </div>
+{% endblock %}  
+  
 
 </body>
 </html>

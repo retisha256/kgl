@@ -1,60 +1,63 @@
-
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
-{% block title %}Owner Dashboard{% endblock %}
-{% block styles %}
-    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
-{% endblock %}
+<link rel="stylesheet" href="{% static 'dash.css' %}">
 
-{% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Karibu Groceries Ltd</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'login' %}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'signup' %}">Signup</a>
-                        </li>
-                    {% endif %}
+
 
 {% block content %}
-    <h1>Owner Dashboard</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">Overall Sales</h2>
-                    <p>Total Sales Amount: {{ total_sales_amount }}</p>
-                    <p>Total Sales Count: {{ total_sales_count }}</p>
-                </div>
+<div class="sidebar">
+    <h2>Menu</h2>
+    <ul>
+        <li><a href="{% url 'allsales' %}">All Sales</a></li>
+        <li><a href="{% url 'allstock' %}">All Stock</a></li>
+        <li><a href="{% url 'receipt' %}">Receipts</a></li>
+        <li><a href="{% url 'addcredit' %}">All Credit</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+</div>
+<div class="container mt-5">
+    <h2 style="margin-left: 200px;">Owner Dashboard</h2>
+
+    <div class="main-content">
+        <div class="card-container">
+            <div class="dashboard-card sales-card">
+                <h3>Total Sales</h3>
+                <p>UGX {{ total_sales|floatformat:0 }}</p><br>
+                <a href="/allsales/" class="view-button sales-button">View Sales</a>
+            </div>
+            <div class="dashboard-card credit-card">
+                <h3>Total Credits</h3>
+                <p>UGX {{ total_credit_sales|floatformat:0 }}</p><br>
+                <a href="/addcredit/" class="view-button credit-button">View Credits</a>
             </div>
         </div>
-        <div class="col-md-6">
-           <div class="card">
-               <div class="card-body">
-                   <h2 class="card-title">Branch Sales</h2>
-                   <ul>
-                   {% for branch_data in branch_sales_data %}
-                       <li>{{ branch_data.branch_name }}: {{ branch_data.total_sales }}</li>
-                   {% endfor %}
-                   </ul>
-               </div>
-           </div>
+
+        <h3>Stock Levels by Product and Branch</h3>
+        <div class="stock-grid">
+            {% for stock in combined_stocks %}
+            <div class="stock-card">
+                <div class="stock-info">
+                    <h4>{{ stock.name }}</h4>
+                    <p class="quantity">Total: {{ stock.total_quantity }} kg</p>
+                    <div class="branch-quantities">
+                        {% for branch, quantity in stock.branches.items %}
+                        <div class="branch-quantity">
+                            <span class="branch-name">{{ branch }}</span>
+                            <span class="branch-amount">{{ quantity }} kg</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
     </div>
+</div>
+{% endblock %}
 
-    {% endblock %}
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</style>
+{% endblock %}

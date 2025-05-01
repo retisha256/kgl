@@ -1,35 +1,121 @@
-
-{% load crispy_forms_tags %}
-{%  load static %}
+{% load crispy_forms_tags %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'login.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'login.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Login</title>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif; /* More modern font */
+        background-color: #e3f4f4; /* Light green background */
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .login {
+        background-color: #fff;
+        border-radius: 12px; /* Slightly more rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        padding: 30px; /* Increased padding */
+        width: 100%;
+        max-width: 400px; /* Slightly wider form */
+        box-sizing: border-box; /* Include padding in width */
+      }
+      .top h1 {
+        color: #800020; /* Deep purple/maroon */
+        text-align: center;
+        margin-bottom: 25px; /* Increased margin */
+        font-weight: 600; /* Make the heading a bit bolder */
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      .form-group {
+        margin-bottom: 20px; /* Increased spacing between form groups */
+      }
+      label {
+        color: #555; /* Darker label color for better readability */
+        font-weight: 500;
+        margin-bottom: 8px; /* Added margin below label */
+        display: block; /* Ensure label is a block element */
+      }
+      input[type="text"],
+      input[type="password"] {
+        /* Removed background-color, using default which is white in most browsers */
+        border: 1px solid #d1c4e9; /* Lighter border color */
+        border-radius: 6px; /* More rounded input corners */
+        padding: 12px; /* Increased padding inside inputs */
+        width: 100%; /* Ensure input fields take full width */
+        box-sizing: border-box; /* Include padding and border in width */
+        font-size: 16px; /* Slightly larger font size for inputs */
+        transition: border-color 0.3s ease; /* Smooth transition */
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        outline: none; /* Remove default outline */
+        border-color: #9c27b0; /* Highlight border on focus */
+        box-shadow: 0 0 5px rgba(156, 39, 176, 0.3); /* Add a subtle shadow on focus */
+      }
+      input[type="submit"] {
+        background-color: #0b3d55; /* A nice blue color */
+        color: white;
+        padding: 12px 25px; /* Slightly adjusted padding */
+        border: none;
+        border-radius: 6px; /* More rounded button corners */
+        cursor: pointer;
+        font-size: 18px; /* Larger font size for button */
+        transition: background-color 0.3s ease; /* Smooth transition */
+        font-weight: 500; /* Make the button text a bit bolder */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+        width: 50%; /* Make the button wider */
+        align-items: center; /* Center the button */
+        margin-left: auto; /* Center the button horizontally */
+        margin-right: auto; /* Center the button horizontally */
+      }
+      input[type="submit"]:hover {
+        background-color: #7e0e4a; /* Darker shade on hover */
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+      }
+      .errorlist {
+        color: #e57373; /* Red color for errors */
+        margin-top: 10px;
+        margin-bottom: 0;
+        font-size: 0.9em;
+      }
+      .helptext {
+        color: #777;
+        font-size: 0.85em;
+        margin-top: 5px;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
     {% block content %}
-    <br>
+    <br />
     <div class="body container-fluid login">
-<div class="container container-fluid top">
-    <h1 class="text-white"style="color:800020;">
-Login
-    </h1>
+      <div class="container container-fluid top">
+        <h1 class="text-white" style="color: 800020">Login</h1>
 
-<form action="" method="POST" id ="form">
-    {% csrf_token %}
-    {{ form| crispy }}
-    <input type="submit" value="SUBMIT">
-</form>
-
-
-</div>
+        <form action="" method="POST" id="form">
+          {% csrf_token %} {{ form| crispy }}
+          <br /><br />
+          <input type="submit" value="SUBMIT" />
+        </form>
+      </div>
     </div>
     {% endblock %}
-</body>
+  </body>
 </html>

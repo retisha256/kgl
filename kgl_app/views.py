@@ -12,6 +12,9 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db import transaction
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render
+from django.db.models import Sum, Q
+
 
 # Create your views here.
 # view for indexpage
@@ -79,11 +82,11 @@ def is_salesagent_check(user):
     """
     return user.is_salesagent
 
-def dash(request):
+def index(request):
     """
     Renders a generic dashboard page.
     """
-    return render(request, 'dash.html')
+    return render(request, 'dashboard_default.html')
 
 # view for receiptpage
 
@@ -219,13 +222,33 @@ def addstock(request, pk):
 
 # view for addcredit
 def addcredit(request):
-    """
-    Displays a list of all credit entries, ordered by the most recent.
-    (Note: The functionality to add new credit entries is not present in this view)
-    """
-    credit = Credit.objects.all().order_by("-id")
-    return render(request, 'addcredit.html', {'credit': credit})
+    """Displays the list of credit entries."""
+    credit = Credit.objects.all().order_by("-Dispatch_date")
+    return render(request, 'addcredit.html', {'credit': credit}) # Assuming your template is named addcredit.html
 
+def add_credit(request):
+    """Handles the creation of a new credit entry."""
+    if request.method == 'POST':
+        form = AddCreditForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('credit_list')
+    else:
+        form = AddCreditForm()
+    return render(request, 'add_credit_form.html', {'form': form}) # Create this template
+
+def delete_credit_list(request):
+    """Displays a list of credit entries with checkboxes for deletion."""
+    credit = Credit.objects.all().order_by("-Dispatch_date")
+    return render(request, 'delete_credit_list.html', {'credit': credit}) # Create this template
+
+def delete_credit(request, credit_id):
+    """Deletes a specific credit entry."""
+    credit = get_object_or_404(Credit, id=credit_id)
+    if request.method == 'POST':
+        credit.delete()
+        return redirect('delete_credit_list')
+    return render(request, 'delete_credit_confirm.html', {'credit': credit}) # Create this template
 # view for manager
 def manager(request):
     """
@@ -240,7 +263,7 @@ def owner(request):
     Renders the dashboard page for owners (dash1.html).
     (Note: This view might be redundant as the 'dashboard' view handles role-based rendering)
     """
-    return render(request, 'dash1.html')
+    return render(request, 'dashboard2.html')
 
 # view for salesagent
 def salesagent(request):
@@ -355,76 +378,107 @@ def edit_sale(request, sale_id):
     }
     return render(request, 'edit_sale.html', context)
 
-@login_required
-def dashboard(request):
-    """
-    Generic dashboard view that renders different templates and provides
-    role-specific data based on the user's authentication status and role.
-    - Owners see overall sales statistics and branch-wise sales data.
-    - Managers see branch-specific sales, stock, sales agents, and credit information.
-    - Sales agents see their own sales records and total sales.
-    - Other users see a default dashboard.
-    """
-    if request.user.is_owner:
-        # Owner-specific data
-        total_sales_amount = Sales.objects.aggregate(Sum('selling_price'))['selling_price__sum'] or 0
-        total_sales_count = Sales.objects.count()
-        branches = Branch.objects.all()  # Get all branches
-        branch_sales_data = []
-        for branch in branches:
-            branch_total_sales = Sales.objects.filter(branch=branch).aggregate(Sum('selling_price'))['selling_price__sum'] or 0
-            branch_sales_data.append({
-                'branch_name': branch.branch_name,
-                'total_sales': branch_total_sales,
-            })
-
-        context = {
-            'total_sales_amount': total_sales_amount,
-            'total_sales_count': total_sales_count,
-            'branch_sales_data': branch_sales_data,
-        }
-        return render(request, 'dashboard2.html', context)
-
-    elif request.user.is_manager:
-        # Manager-specific data
-        branch = request.user.branch
-        branch_sales = Sales.objects.filter(branch=branch).aggregate(Sum('selling_price'))['selling_price__sum'] or 0
-        branch_stock = Stock.objects.filter(branch=branch)
-        branch_sales_agents = Userprofile.objects.filter(branch=branch, is_salesagent=True)
-        sales_agent_sales_data = []
-        for agent in branch_sales_agents:
-            agent_total_sales = Sales.objects.filter(salesagent_name=agent).aggregate(Sum('selling_price'))['selling_price__sum'] or 0
-            sales_agent_sales_data.append({
-                'agent_name': agent.username,
-                'total_sales': agent_total_sales,
-            })
-        branch_credits = Credit.objects.filter(branch=branch)
-        recent_branch_sales = Sales.objects.filter(branch=branch).order_by('-date_and_time')[:5]
-        low_stock_items = Stock.objects.filter(branch=branch, tonnage__lt=10)  # Example threshold
-
-        context = {
-            'branch_name': branch.branch_name,
-            'branch_sales': branch_sales,
-            'branch_stock': branch_stock,
-            'sales_agent_sales_data': sales_agent_sales_data,
-            'branch_credits': branch_credits,
-            'recent_branch_sales': recent_branch_sales,
-            'low_stock_items': low_stock_items,
-        }
-        return render(request, 'dash2.html', context)
-
-    elif request.user.is_salesagent:
-        # Sales agent-specific data
-        my_sales = Sales.objects.filter(salesagent_name=request.user).order_by('-date_and_time')
-        total_sales = Sales.objects.filter(salesagent_name=request.user).aggregate(Sum('selling_price'))['selling_price__sum'] or 0
-        total_sales_amount = sum(sale.total_sales() for sale in my_sales)  # Calculate total sales amount
-        context = {
-            'my_sales': my_sales,
-            'total_sales': total_sales,
-            'total_sales_amount': total_sales_amount,
-        }
-        return render(request, 'dash1.html', context)
-
+def addsale(request):
+    if request.method == 'POST':
+        form = AddSalesForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('allsales'))  # Redirect to the all sales page
     else:
-        # Handle cases where the user doesn't have a defined role
-        return render(request, 'dashboard_default.html')
+        form =AddSalesForm()
+    return render(request, 'addsales.html', {'form': form})
+
+ # Import your models
+
+def manager(request):
+    total_cash_sales=Sales.objects.filter(is_sold_on_cash=True).aggregate( 
+        total_cash=Sum('amount_paid')
+    )['total_cash'] or 0
+    total_credit_sales=Credit.objects.aggregate(
+        total_credit=Sum('amount_due')
+    )['total_credit'] or 0
+    total_sales=total_cash_sales + total_credit_sales
+    total_stock=Stock.objects.aggregate(
+        total_quantity=Sum('tonnage')
+    )['total_quantity'] or 0
+    context ={
+        'total_cash_sales': total_cash_sales,
+        'total_credit_sales': total_credit_sales,
+        'total_sales': total_sales,
+        'total_stock': total_stock,
+    }
+    return render(request, 'dash2.html', context)
+
+def owner(request):
+  total_cash_sales=Sales.objects.filter(is_sold_on_cash=True).aggregate(
+    total_cash=Sum('amount_paid')
+  )['total_cash'] or 0
+  total_credit_sales=Credit.objects.aggregate(
+    total_credit=Sum('amount_due')
+  )['total_credit'] or 0
+
+  total_sales=total_cash_sales+ total_credit_sales
+
+  total_stock = Stock.objects.aggregate(
+    total_quantity =Sum('tonnage')
+  )['total_quantity'] or 0
+
+  all_stocks =Stock.objects.all()
+  grouped_stocks ={}
+
+  for stock in all_stocks:
+    if stock.name_of_produce not in grouped_stocks:
+      grouped_stocks[stock.name_of_produce] ={
+        'name':stock.name_of_produce,
+      'branches':{},
+      'total_quantity':0,
+      }
+
+    branch = stock.branch if stock.branch else 'Unknown'
+    if branch not in grouped_stocks[stock.name_of_produce]['branches']:
+      grouped_stocks[stock.name_of_produce]['branches'][branch] = 0 # Corrected line
+
+    grouped_stocks[stock.name_of_produce]['branches'][branch] += stock.tonnage
+    grouped_stocks[stock.name_of_produce]['total_quantity'] += stock.tonnage
+
+  combined_stocks =list(grouped_stocks.values())
+  recent_sales = Sales.objects.order_by('-id')[:10]
+
+  context = {
+    'total_cash_sales': total_cash_sales,
+    'total_credit_sales': total_credit_sales,
+    'total_sales': total_sales,
+    'total_stock': total_stock,
+    'combined_stocks': combined_stocks,
+    'recent_sales': recent_sales, # Pass recent sales to the template
+  }
+  return render(request, 'dashboard2.html', context)
+def salesagent(request):
+    """
+    Displays the dashboard page for sales agents.
+    It retrieves the total sales made by the logged-in sales agent and displays them.
+    """
+    total_sales = Sales.objects.filter(salesagent_name=request.user).aggregate(
+        total_sales=Sum('amount_paid')
+    )['total_sales'] or 0
+
+    context = {
+        'total_sales': total_sales,
+    }
+    return render(request, 'dash1.html', context)
+
+    
+    
+
+    
+
+def Logout(request):
+    """
+    Renders the logout confirmation page.
+    If the user confirms (by submitting a POST request), they are logged out
+    and redirected to the login page. Otherwise, the confirmation page is shown.
+    """
+    if request.method == 'POST':
+        logout(request)
+        return redirect('dashboard')
+    return render(request, 'logout.html')

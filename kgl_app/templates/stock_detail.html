@@ -1,17 +1,12 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
+
     {% block content %}
 
     <div>
      <a href="{% url 'issue_item' stock.id %}"><input type="submit" value="Sell Item"></a>
      <a href="{% url 'addstock' stock.id %}"><input type="submit" value="Add Item"></a>
+
     </div>
 
     <table border="1">
@@ -32,6 +27,11 @@
             </tr>
         </tbody>
     </table>
+    <div class="button-container">
+        <a href="{% url 'dashboard' %}" class="dashboard-button">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
     {% endblock %}
 </body>
 </html>

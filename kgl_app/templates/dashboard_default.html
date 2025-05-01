@@ -1,27 +1,141 @@
-{% extends 'base.html' %}
-{% block content %}
-    <div class="alert alert-info" role="alert">
-        <h1 class="alert-heading">Welcome to Karibu Groceries Ltd</h1>
-        <p>
-            This is the default dashboard.  Please log in to see your personalized dashboard.
-        </p>
-        <hr>
-        <p class="mb-0">
-            If you are an owner, manager, or sales agent, your dashboard will display
-            information relevant to your role.
-        </p>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h2 class="card-title">Quick Links</h2>
-            <div class="row">
-                <div class="col-md-4">
-                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-                </div>
-                <div class="col-md-4">
-                    <a href="{% url 'signup' %}" class="btn btn-secondary">Signup</a>
-                </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karibu Groceries</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Light background */
+            color: #343a40; /* Darker text for better contrast */
+        }
+        .navbar {
+            background-color: #0b3d55; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+        .navbar-brand {
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .navbar-nav .nav-link {
+            color: white;
+            margin-left: 1rem;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #f0f8f4; /* Slightly lighter green on hover */
+        }
+        .container {
+            margin-top: 3rem; /* Increased margin for better spacing */
+            margin-bottom: 3rem;
+        }
+        .jumbotron {
+            background-color: #e3f4f4; /* Very light green */
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .jumbotron h1 {
+            color: #0c3001; /* Darker green */
+            font-weight: bold;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .jumbotron p {
+            color: #300104;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn-primary {
+            background-color: #e2751b; /* Green button */
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+        }
+        .btn-primary:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+        .btn-secondary {
+            background-color: #0c4a6e; /* Dark Blue button */
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+        }
+        .btn-secondary:hover {
+            background-color: #0b3d55; /* Darker blue on hover */
+        }
+
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 0.5rem;
+        }
+        .card-title {
+            color: #28a745; /* Green title */
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .card-body p{
+            color: #0c3001;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background-color: #0b3d55; /* Light footer background */
+            padding: 1.5rem 0;
+            text-align: center;
+            color: #6c757d; /* Gray text */
+            margin-top: 3rem;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Karibu Groceries Ltd</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                
+                </ul>
             </div>
         </div>
-    </div>
-{% endblock %}
+    </nav>
+
+    <main class="container">
+        {% block content %}
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome to Karibu Groceries Ltd</h1>
+            <p class="lead">
+                Your one-stop shop for fresh, high-quality produce.
+            </p>
+            <hr class="my-4">
+            <p>
+                Explore our wide selection of groceries and experience the best service.
+            </p>
+            
+            <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">Login</a>
+        </div>
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <p>&copy; 2025 Karibu Groceries Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

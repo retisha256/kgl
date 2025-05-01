@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Sale{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Add New Sale</h1>
+        <form method="post" class="sale-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save Sale</button>
+            <a href="{% url 'allsales' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}
+
+{% block styles %}
+<style>
+   
+</style>
+{% endblock %}

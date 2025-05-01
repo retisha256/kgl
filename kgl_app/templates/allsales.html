@@ -1,54 +1,56 @@
+{% extends 'base.html' %}
+
 {% load static %}
+
 
 {% block title %}KGL Website {% endblock %}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="{% static 'allsales.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="{% static 'allsales.css' %}">
 
 
-        {% block content %}
-            <div class="container">
-                <div class="button-container">
-                    <a href="{% url 'dashboard' %}" class="dashboard-button">
-                        <i class="fas fa-arrow-left"></i> Back to Dashboard
-                    </a>
-                </div>
-                <h1>All sales</h1>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product name</th>
-                            <th>Tonnage</th>
-                            <th>Amount</th>
-                            <th>Customer's name</th>
-                            <th>Sales agent</th>
-                            <th>is sold on cash</th>
-                            <th>Branch</th>
-                            <th>Action</th>
-                            <th>Action</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    {% for sale in sales %}
-                    <tbody>
-                        <tr>
-                            <td>{{ sale.product_name }}</td>
-                            <td>{{ sale.tonnage }}kg</td>
-                            <td>{{ sale.total_sales }}</td>
-                            <td>{{ sale.buyers_name }}</td>
-                            <td>{{ sale.salesagent_name }}</td>
-                            <td>{{ sale.is_sold_on_cash }}</td>
-                            <td>{{ sale.branch }}</td>
-                            <td><a href="{% url 'view_sale' sale_id=sale.id %}"><input type="submit"value="View"></a></td>
-                            <td><a href="{% url 'edit_sale' sale_id=sale.id %}"><input type="submit" value="Edit" class="edit-button"></a></td>
-                            <td><a href="{% url 'delete_sale' sale_id=sale.id %}"><input type="submit" value="delete" style="background-color: red; color: white;"></a></td>
-                        </tr>
-                    </tbody>
-                    {% endfor %}
-                </table>
-            </div>
-        {% endblock %}
+    {% block content %}
+    
+      
+        <h1>All sales</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Product name</th>
+              <th>Tonnage</th>
+              <th>Amount</th>
+              <th>Customer's name</th>
+              <th>Sales agent</th>
+              <th>is sold on cash</th>
+              <th>Branch</th>
+              <th>View</th>
+              <th>Add</th>
+              <th>Edit</th>
+              <th>Delete</th>
+              <th></th>
+            </tr>
+          </thead>
+          {% for sale in sales %}
+          <tbody>
+            <tr>
+              <td>{{ sale.product_name }}</td>
+              <td>{{ sale.tonnage }}kg</td>
+              <td>{{ sale.total_sales }}</td>
+              <td>{{ sale.buyers_name }}</td>
+              <td>{{ sale.salesagent_name }}</td>
+              <td>{{ sale.is_sold_on_cash }}</td>
+              <td>{{ sale.branch }}</td>
+              <td><a href="{% url 'view_sale' sale_id=sale.id %}"><input type="submit"value="View"></a></td>
+              <td><a href="{% url 'addsale' %}" class="dashboard-button"><input type="submit" value="Add"></a></td>
+              <td><a href="{% url 'edit_sale' sale_id=sale.id %}"><input type="submit" value="Edit" class="edit-button"></a></td>
+              <td><a href="{% url 'delete_sale' sale_id=sale.id %}"><input type="submit" value="delete" style="background-color: red; color: white;"></a></td>
+            </tr>
+          </tbody>
+          {% endfor %}
+        </table>
+      </div>
+    {% endblock %}
 
 
 </body>
@@ -57,74 +59,75 @@
 {% block styles %}
 
 <style>
-    .container {
-        padding: 20px;
-    }
+  .container {
+    padding: 20px;
+  }
 
-    .button-container {
-        margin-bottom: 20px;
-    }
+  .button-container {
+    margin-bottom: 20px;
+    text-align: right; /* Align the button to the right */
+  }
 
-    .dashboard-button {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #28a745; /* Green color for a positive action */
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-    }
+  .dashboard-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745; /* Green color for a positive action */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
 
-    .dashboard-button:hover {
-        background-color: #218838;
-    }
+  .dashboard-button:hover {
+    background-color: #218838;
+  }
 
-    .dashboard-button i {
-        margin-right: 5px;
-    }
+  .dashboard-button i {
+    margin-right: 5px;
+  }
 
-    h1 {
-        margin-bottom: 20px;
-    }
+  h1 {
+    margin-bottom: 20px;
+  }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
 
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
 
-    th {
-        background-color: #f2f2f2;
-    }
+  th {
+    background-color: #f2f2f2;
+  }
 
-    .edit-button {
-        background-color: #007bff; /* Blue color for edit */
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        border-radius: 3px;
-        cursor: pointer;
-        text-decoration: none;
-        font-size: 14px;
-    }
+  .edit-button {
+    background-color: #007bff; /* Blue color for edit */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+  }
 
-    .edit-button:hover {
-        background-color: #0056b3;
-    }
+  .edit-button:hover {
+    background-color: #0056b3;
+  }
 
-    input[type="submit"] {
-        padding: 5px 10px;
-        border-radius: 3px;
-        cursor: pointer;
-        border: none;
-        font-size: 14px;
-    }
+  input[type="submit"] {
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+  }
 </style>
 {% endblock %}

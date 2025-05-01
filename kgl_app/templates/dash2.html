@@ -1,120 +1,95 @@
 {% extends 'base.html' %}
-
+{% load static %}
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif; /* More common and readable font */
+            margin: 0; /* Reset default margin */
+            background-color: #f8f9fa; /* Light gray background */
+            color: #333;
+        }
+        
+    </style>
+</head>
+<body>
 {% block content %}
-<div class="row">
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header">
-                Navigation
-            </div>
-            <div class="list-group list-group-flush">
-                <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action active">Dashboard</a>
-                <a href="{% url 'allsales' %}" class="list-group-item list-group-item-action">View All Sales</a>
-                <a href="{% url 'allstock' %}" class="list-group-item list-group-item-action">View Stock</a>
-                
-                <a href="{% url 'addcredit' %}" class="list-group-item list-group-item-action">View Credits</a>
-                <a href="{% url 'logout' %}" class="list-group-item list-group-item-action">Logout</a>
-            </div>
-        </div>
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="{% url 'allsales' %}">All Sales</a></li>
+            <li><a href="{% url 'allstock' %}">All Stock</a></li>
+            <li><a href="{% url 'receipt' %}">Receipts</a></li>
+            <li><a href="{% url 'addcredit' %}">All Credit</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
     </div>
-    <div class="col-md-9">
-        <h1>Manager Dashboard - {{ branch_name }}</h1>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">Branch Sales</h2>
-                        <p>Total Sales for this Branch: {{ branch_sales }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">Branch Stock</h2>
-                        <ul>
-                            {% for item in branch_stock %}
-                            <li>{{ item.name_of_produce }} - Tonnage: {{ item.tonnage }}</li>
-                            {% empty %}
-                            <li>No stock available in this branch.</li>
-                            {% endfor %}
-                        </ul>
-                        {% if low_stock_items %}
-                        <h6 class="mt-2 text-warning">Low Stock Items:</h6>
-                        <ul>
-                            {% for item in low_stock_items %}
-                            <li>{{ item.name_of_produce }} - Tonnage: {{ item.tonnage }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+
+    <h1 style="margin-top: 10px;">Manager Dashboard</h1>
+
+    <div class="content-grid"style='margin-left:100px;margin-top:10px;'>
+        <div class="card">
+            <h2>Sales Overview</h2>
+            <p>Total Cash Sales: <span class="metric">UGX {{ total_cash_sales|default:"0" }}</span></p>
+            <p>Total Credit Sales: <span class="metric">UGX {{ total_credit_sales|default:"0" }}</span></p>
+            <p><strong>Total Sales: <span class="metric">UGX {{ total_sales|default:"0" }}</span></strong></p>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">Sales Agent Performance</h2>
-                        <ul>
-                            {% for agent_data in sales_agent_sales_data %}
-                            <li>{{ agent_data.agent_name }}: {{ agent_data.total_sales }}</li>
-                            {% empty %}
-                            <li>No sales agents assigned to this branch.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">Branch Credits</h2>
-                        <ul>
-                            {% for credit in branch_credits %}
-                            <li>Buyer: {{credit.buyer_name}} - Amount Due: {{credit.amount_due}} - Due Date: {{credit.due_date}}</li>
-                            {% empty %}
-                            <li>No outstanding credits for this branch.</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title">Recent Branch Sales</h2>
-                        {% if recent_branch_sales %}
-                        <ul>
-                            {% for sale in recent_branch_sales %}
-                            <li>{{ sale.name_of_produce }} - Quantity: {{ sale.tonnage }} - Price: {{ sale.selling_price }} - Date: {{ sale.date_and_time }}</li>
-                            {% endfor %}
-                        </ul>
+
+        <div class="card">
+            <h2>Stock Overview</h2>
+            <p>Total Stock Quantity: <span class="metric">{{ total_stock|default:"0" }} kgs</span></p>
+            <h3>Stock by Produce</h3>
+            {% if combined_stocks %}
+                {% for stock_group in combined_stocks %}
+                    <div class="stock-item">
+                        <strong>{{ stock_group.name }}</strong> (Total: {{ stock_group.total_quantity }} kgs)
+                        {% if stock_group.branches %}
+                            <div class="branch-stock">
+                                {% for branch, quantity in stock_group.branches.items %}
+                                    {{ branch }}: {{ quantity }} kgs<br>
+                                {% endfor %}
+                            </div>
                         {% else %}
-                        <p>No recent sales.</p>
+                            <p class="text-muted">No branch information available.</p>
                         {% endif %}
                     </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No stock available.</p>
+            {% endif %}
+        </div>
+
+        <div class="card">
+            <h2>Recent Sales</h2>
+            {% if recent_sales %}
+                <table class="recent-sales-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Amount Paid</th>
+                            <th>Sales Agent</th>
+                            <th>Date Sold</th>
+                            <th>Cash Sale</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sale in recent_sales %}
+                            <tr>
+                                <td>{{ sale.id }}</td>
+                                <td>UGX {{ sale.amount_paid }}</td>
+                                <td>{{ sale.salesagent_name }}</td>
+                                <td>{{ sale.date_sold }}</td>
+                                <td>{% if sale.is_sold_on_cash %}Yes{% else %}No{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">No recent sales recorded.</p>
+            {% endif %}
         </div>
     </div>
 </div>
 {% endblock %}
-
-{% block styles %}
-{{ block.super }}
-<style>
-    .list-group-item.active {
-        background-color: #3498db;
-        border-color: #3498db;
-        color: white;
-    }
-    .list-group-item:hover {
-        background-color: #f0f0f0;
-    }
-</style>
-{% endblock %}
+</body>
+</html>

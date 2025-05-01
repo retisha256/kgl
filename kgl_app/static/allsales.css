@@ -2,10 +2,12 @@
 
 
 table {
-    width: 80%; /* Adjust as needed */
+     margin-top: 10px;
+    width: 100%; /* Adjust as needed */
     border-collapse: collapse; /* Remove default spacing between cells */
-    margin-left: 40px; /* Center the table on the page */
+    margin-left: 10px; /* Center the table on the page */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    position: position;
   }
 
   th, td {
