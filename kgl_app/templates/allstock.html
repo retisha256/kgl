@@ -5,16 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOOD MANAGEMENT SYSTEM</title>
+    <title>INVENTORY MANAGEMENT SYSTEM</title>
     <link rel="stylesheet" href="{% static 'allsales.css' %}">
     <style>
-  
+       
+
     </style>
   
 </head>
 <body>
     {% block content %}
-    <h1>Table for stock</h1>
+    <h1>Summary of produce stocked</h1>
     <table border="1">
         <thead>
             <tr>
@@ -23,8 +24,7 @@
                 <th>Cost</th>
                 <th>supplier</th>
                 <th>Action</th>
-                <th>Action</th>
-                <th>Action</th>
+                
                 
             </tr>
             {% for stock in stocks %}
@@ -35,9 +35,9 @@
                 <td>{{ stock.tonnage }}</td>
                 <td>{{ stock.cost }}</td>
                 <td>{{ stock.name_of_dealer }}</td>
-                <td><a href="{% url 'detail' stock.id %}"><input type="submit" value ="Checkout Item"></a></td>
-               <td><a href="{% url 'addstock' stock.id %}"><input type="submit" value="Add Item" class="add-item-button"></a></td>
-                <td><a href="{% url 'delete_stock' stock_id=stock.id%}"><input type="submit" value="delete" style="background-color: red; color: white;"></a></td>
+                <td><a href="{% url 'detail' stock.id %}"><input type="submit" value ="View"></a>
+               <a href="{% url 'addstock' stock.id %}"><input type="submit" value="Add" class="add-item-button"></a>
+                <a href="{% url 'delete_stock' stock_id=stock.id%}"><input type="submit" value="delete" style="background-color:orangered; color: white;"></a></td>
             </tr>
         </tbody>
         {% endfor %}

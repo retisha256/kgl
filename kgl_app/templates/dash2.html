@@ -11,31 +11,20 @@
         
     </style>
 </head>
-<body>
+<body >
 {% block content %}
-<div class="dashboard-container">
-    <div class="sidebar">
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="{% url 'allsales' %}">All Sales</a></li>
-            <li><a href="{% url 'allstock' %}">All Stock</a></li>
-            <li><a href="{% url 'receipt' %}">Receipts</a></li>
-            <li><a href="{% url 'addcredit' %}">All Credit</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-        </ul>
-    </div>
-
+<div class="dashboard-container"style="margin-left:2px;">
     <h1 style="margin-top: 10px;">Manager Dashboard</h1>
 
     <div class="content-grid"style='margin-left:100px;margin-top:10px;'>
-        <div class="card">
+        <div class="card" style="width:400px;">
             <h2>Sales Overview</h2>
             <p>Total Cash Sales: <span class="metric">UGX {{ total_cash_sales|default:"0" }}</span></p>
             <p>Total Credit Sales: <span class="metric">UGX {{ total_credit_sales|default:"0" }}</span></p>
             <p><strong>Total Sales: <span class="metric">UGX {{ total_sales|default:"0" }}</span></strong></p>
         </div>
 
-        <div class="card">
+        <div class="card"style="width: 400px;">
             <h2>Stock Overview</h2>
             <p>Total Stock Quantity: <span class="metric">{{ total_stock|default:"0" }} kgs</span></p>
             <h3>Stock by Produce</h3>
@@ -59,7 +48,7 @@
             {% endif %}
         </div>
 
-        <div class="card">
+        <div class="card" style="width: 600px;">
             <h2>Recent Sales</h2>
             {% if recent_sales %}
                 <table class="recent-sales-table">

@@ -5,27 +5,17 @@
 
 
 {% block content %}
-<div class="sidebar">
-    <h2>Menu</h2>
-    <ul>
-        <li><a href="{% url 'allsales' %}">All Sales</a></li>
-        <li><a href="{% url 'allstock' %}">All Stock</a></li>
-        <li><a href="{% url 'receipt' %}">Receipts</a></li>
-        <li><a href="{% url 'addcredit' %}">All Credit</a></li>
-        <li><a href="{% url 'logout' %}">Logout</a></li>
-    </ul>
-</div>
 <div class="container mt-5">
     <h2 style="margin-left: 200px;">Owner Dashboard</h2>
 
     <div class="main-content">
         <div class="card-container">
-            <div class="dashboard-card sales-card">
+            <div class="dashboard-card sales-card"style="width:300px;">
                 <h3>Total Sales</h3>
                 <p>UGX {{ total_sales|floatformat:0 }}</p><br>
                 <a href="/allsales/" class="view-button sales-button">View Sales</a>
             </div>
-            <div class="dashboard-card credit-card">
+            <div class="dashboard-card credit-card"style="width:300px;">
                 <h3>Total Credits</h3>
                 <p>UGX {{ total_credit_sales|floatformat:0 }}</p><br>
                 <a href="/addcredit/" class="view-button credit-button">View Credits</a>

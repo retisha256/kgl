@@ -1,39 +1,111 @@
+
 {% extends 'base.html' %}
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .card {
-           
-        }
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .metric {
-            font-size: 2em;
-            font-weight: bold;
-            color: #28a745;
-        }
-    </style>
-</head>
-<body>
-    {% block content %}
-    <div class="card"style=' background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-left: 250px;'>
-        <h2>Welcome, {{ request.user.username }}!</h2>
-        <p>Your Total Sales:</p>
-        <p class="metric">UGX {{ total_sales|default:"0" }}</p>
+{% load static %}
+
+{% block title %}Sales Agent Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome, {{ request.user.username }}!</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header" style="background-color:#007bff; color:azure">
+                    <i class="fa fa-chart-line"></i> Your Total Sales
+                </div>
+                <div class="card-body">
+                    <h2>UGX {{ total_sales|default:"0" }}</h2>
+                    <p class="card-text"><small class="text-muted">Total amount of sales you've made.</small></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header"style="background-color:#007bff; color:azure;">
+                    <i class="fa fa-cubes"></i> Stock Summary
+                </div>
+                <div class="card-body">
+                    {% if total_stock %}
+                        <h2>{{ total_stock }} Units</h2>
+                        <p class="card-text"><small class="text-muted">Total quantity of all stock items.</small></p>
+                        {% if low_stock_products %}
+                            <p class="card-text text-warning">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                Low Stock:
+                                {% for product in low_stock_products %}
+                                    {{ product.name_of_produce }} ({{ product.tonnage }}kg){% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% else %}
+                            <p class="card-text text-success">
+                                <i class="fa fa-check-circle"></i>
+                                Stock levels are looking good.
+                            </p>
+                        {% endif %}
+                    {% else %}
+                        <p class="card-text">No stock information available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
-    {% endblock %}
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-history"></i> Recent Sales
+                </div>
+                <div class="card-body">
+                    {% if recent_sales %}
+                        <ul class="list-group list-group-flush">
+                            {% for sale in recent_sales %}
+                                <li class="list-group-item">
+                                    {{ sale.product_name }} - UGX {{ sale.total_sales }}
+                                    <small class="text-muted">({{ sale.created_at|date:"d M Y, H:i" }})</small>
+                                </li>
+                            {% empty %}
+                                <li class="list-group-item">No recent sales recorded.</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="card-text">No recent sales recorded.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-credit-card"></i> Recent Credit Issued
+                </div>
+                <div class="card-body">
+                    {% if recent_credit %}
+                        <ul class="list-group list-group-flush">
+                            {% for credit_entry in recent_credit %}
+                                <li class="list-group-item">
+                                    {{ credit_entry.Customer_Name }} - UGX {{ credit_entry.Amount_Due }} Due
+                                    <small class="text-muted">({{ credit_entry.Dispatch_date|date:"d M Y" }})</small>
+                                </li>
+                            {% empty %}
+                                <li class="list-group-item">No recent credit issued.</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="card-text">No recent credit issued.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+    
+
+
 </body>
 </html>

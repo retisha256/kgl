@@ -480,5 +480,5 @@ def Logout(request):
     """
     if request.method == 'POST':
         logout(request)
-        return redirect('dashboard')
+        return redirect('dash')
     return render(request, 'logout.html')

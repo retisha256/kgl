@@ -1,0 +1,42 @@
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'allsales.css' %}">
+{% block title %}Sales Report{% endblock %}
+
+{% block content %}
+    <h1>Sales Report</h1>
+
+    <h2>Summary</h2>
+    <p>Total Sales Amount: {{ total_sales_amount }}</p>
+    <p>Total Number of Sales: {{ total_sales_count }}</p>
+    <p>Average Sale Amount: {{ average_sale_amount|floatformat:2 }}</p>  
+
+    <h2>All Sales</h2>
+    <table>
+        <thead>
+            <tr>
+                 <th>Product name</th>
+                 <th>Tonnage</th>
+                 <th>Amount </th>
+                 <th>Customer's name</th>
+                 <th>Sales agent</th>
+                 <th>is sold on cash</th>
+                 <th>Branch</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sale in all_sales %}
+            <tr>
+                 <td>{{ sale.product_name }}</td>
+                 <td>{{ sale.tonnage }}kg</td>
+                 <td>{{ sale.total_sales }}</td>
+                 <td>{{ sale.buyers_name }}</td>
+                 <td>{{ sale.salesagent_name }}</td>
+                 <td>{{ sale.is_sold_on_cash }}</td>
+                 <td>{{ sale.branch }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
