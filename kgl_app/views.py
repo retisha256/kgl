@@ -232,7 +232,7 @@ def add_credit(request):
         form = AddCreditForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('credit_list')
+            return redirect('addcredit')
     else:
         form = AddCreditForm()
     return render(request, 'add_credit_form.html', {'form': form}) # Create this template
@@ -472,13 +472,30 @@ def salesagent(request):
 
     
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+from django.contrib.auth.models import Group
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout
+
 def Logout(request):
     """
     Renders the logout confirmation page.
     If the user confirms (by submitting a POST request), they are logged out
-    and redirected to the login page. Otherwise, the confirmation page is shown.
+    and redirected to the appropriate dashboard based on their user type
+    (owner, manager, sales agent).
     """
     if request.method == 'POST':
         logout(request)
-        return redirect('dash')
+        # Get the user's attributes and redirect
+        if request.user.is_owner:
+            return redirect('dashboard2')  # Redirect to owner dashboard
+        elif request.user.is_manager:
+            return redirect('dash2')  # Redirect to manager dashboard
+        elif request.user.is_salesagent:
+            return redirect('dash1')  # Redirect to sales agent dashboard
+        else:
+            return redirect('dash')  # Default dashboard for other users
+
     return render(request, 'logout.html')
