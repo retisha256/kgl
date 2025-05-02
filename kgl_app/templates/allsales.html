@@ -13,7 +13,9 @@
          <th>Sales agent</th>
          <th>is sold on cash</th>
          <th>Branch</th>
+         {% if user.is_manager or user.is_salesagent %}
          <th>Actions</th>
+         {% endif %}
         </tr>
        </thead>
        {% for sale in sales %}
@@ -21,16 +23,18 @@
         <tr>
          <td>{{ sale.product_name }}</td>
          <td>{{ sale.tonnage }}kg</td>
-         <td>{{ sale.total_sales }}</td>
+         <td>Ugx.{{ sale.total_sales }}</td>
          <td>{{ sale.buyers_name }}</td>
          <td>{{ sale.salesagent_name }}</td>
          <td>{{ sale.is_sold_on_cash }}</td>
          <td>{{ sale.branch }}</td>
          <td>
+          {% if user.is_manager or user.is_salesagent %}
           <a href="{% url 'view_sale' sale_id=sale.id %}" class="action-button view-button"><i class="fa fa-eye"style="color:blue;"></i> </a>
           <a href="{% url 'edit_sale' sale_id=sale.id %}" class="action-button edit-button"><i class="fa fa-pencil"></i></a>
           <a href="{% url 'delete_sale' sale_id=sale.id %}" class="action-button delete-button"><i class="fa fa-trash"></i></a>
           <a href="{% url 'addsale' %}" class="dashboard-button"><i class="fa fa-plus"></i></a>
+          {% endif %}
       </td>
         </tr>
        </tbody>

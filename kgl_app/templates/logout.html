@@ -1,20 +1,31 @@
-{% extends 'base.html' %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-warning text-white">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i> Confirm Logout
+            <div class="card shadow-lg my-5">
+                <div class="card-header bg-warning text-white py-3">
+                    <h2 class="card-title d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> 
+                        <span class="font-weight-bold">Confirm Logout</span>
+                    </h2>
                 </div>
                 <div class="card-body text-center">
-                    <p class="lead">Are you sure you want to logout?</p>
+                    <p class="lead mb-4">Are you sure you want to logout?</p>
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger me-2"><i class="bi bi-door-open-fill me-1"></i> Yes, Logout</button>
-                        <a href="{% url 'dash' %}" class="btn btn-secondary"><i class="bi bi-x-circle-fill me-1"></i> Cancel</a>
+                        <button type="submit" class="btn btn-danger btn-lg me-3">
+                            <i class="bi bi-door-open-fill me-2"></i> 
+                            <span class="font-weight-semibold">Yes, Logout</span>
+                        </button>
+                        <a href="{% url 'dash' %}" class="btn btn-secondary btn-lg">
+                            <i class="bi bi-x-circle-fill me-2"></i> 
+                            <span class="font-weight-semibold">Cancel</span>
+                        </a>
                     </form>
+                </div>
+                <div class="card-footer bg-light text-muted text-center py-2">
+                    <small>Thank you for using Karibu Groceries Ltd.</small>
                 </div>
             </div>
         </div>
@@ -25,10 +36,93 @@
 {% block styles %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css">
 <style>
+    body {
+        background-color: #f8f9fa; /* Light background for the whole page */
+    }
+
+    .card {
+        border-radius: 10px;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
     .card-header {
-        display: flex;
-        align-items: center;
-        font-weight: bold;
+        background-color: #ffc107; /* Warning yellow */
+        color: #343a40;  /* Darker text for better contrast on yellow */
+        padding: 1.5rem;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        display: flex; /* Use flexbox for alignment */
+        align-items: center; /* Vertically center icon and text */
+        border-bottom: 1px solid #f0b207;
+    }
+
+    .card-header h2{
+       font-size: 1.5rem;
+       margin-bottom: 0;
+       font-weight: bold;
+    }
+
+    .card-body {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .card-body p {
+        font-size: 1.2rem; /* Slightly larger text */
+        color: #555;
+        margin-bottom: 2rem;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        border: none;
+        border-radius: 5px;
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-secondary {
+        background-color: #e2e3e4;
+        color: #343a40;
+        border: none;
+        border-radius: 5px;
+        padding: 0.8rem 1.5rem;
+        font-size: 1.1rem;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-secondary:hover {
+        background-color: #d3d4d5;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #dee2e6;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        padding: 0.75rem;
+        text-align: center;
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .bi-exclamation-triangle-fill {
+        font-size: 1.5rem;  /* Make the icon bigger */
+        margin-right: 0.5rem; /* Add some spacing to the right of the icon */
+        color: #b8860b;
+    }
+    .bi-door-open-fill, .bi-x-circle-fill{
+        font-size: 1.1rem;
     }
 </style>
 {% endblock %}
