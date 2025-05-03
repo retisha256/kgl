@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="container">
-    <h1>Welcome, </h1>
+    <h1>Welcome,{{ request.username }} </h1>
 
     <div class="row">
         <div class="col-md-6">
@@ -64,7 +64,7 @@
                             {% for sale in recent_sales %}
                                 <li class="list-group-item">
                                     {{ sale.product_name }} - UGX {{ sale.total_sales }}
-                                    <small class="text-muted">({{ sale.created_at|date:"d M Y, H:i" }})</small>
+                                    <small class="text-muted">({{ sale.date_and_time|date:"d M Y, H:i" }})</small>
                                 </li>
                             {% empty %}
                                 <li class="list-group-item">No recent sales recorded.</li>
@@ -87,7 +87,7 @@
                         <ul class="list-group list-group-flush">
                             {% for credit_entry in recent_credit %}
                                 <li class="list-group-item">
-                                    {{ credit_entry.Customer_Name }} - UGX {{ credit_entry.Amount_Due }} Due
+                                    {{ credit_entry.buyer_name }} - UGX {{ credit_entry.amount_due }} Due
                                     <small class="text-muted">({{ credit_entry.Dispatch_date|date:"d M Y" }})</small>
                                 </li>
                             {% empty %}

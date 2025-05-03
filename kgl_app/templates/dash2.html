@@ -85,6 +85,8 @@
 {% block content %}
 <div class="dashboard-container" style="margin-left:20px; margin-right: 20px;">
     <h1 style="margin-top: 20px; color: #343a40; border-bottom: 3px solid #007bff; padding-bottom: 10px; margin-bottom: 25px;">Manager Dashboard</h1>
+    <h1 style="margin-left: 150px;">Welcome, Mr .{{ request.user.username }}!</h1>
+
 
     <div class="content-grid" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: flex-start;">
         <div class="card" style="width: 940px; background-color: #e9ecef; border-left: 5px solid #007bff;">

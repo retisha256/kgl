@@ -193,7 +193,7 @@ def delete_stock(request, stock_id):
     else:
         return render(request, 'stock_confirm_delete.html', {'stock': stock})
 
-@login_required
+
 @user_passes_test(is_manager_check)
 # view for addingstock
 def addstock(request, pk):
@@ -453,31 +453,42 @@ def owner(request):
     'recent_sales': recent_sales, # Pass recent sales to the template
   }
   return render(request, 'dashboard2.html', context)
+from django.shortcuts import render
+from django.db.models import Sum
+from .models import Sales, Stock, Credit  # Import your models
+
 def salesagent(request):
     """
-    Displays the dashboard page for sales agents.
-    It retrieves the total sales made by the logged-in sales agent and displays them.
+    Displays the dashboard page for sales agents, including total sales,
+    stock summary, recent sales, and recent credit issued.
     """
+    # Total Sales
     total_sales = Sales.objects.filter(salesagent_name=request.user).aggregate(
         total_sales=Sum('amount_paid')
     )['total_sales'] or 0
 
+    # Stock Summary
+    total_stock = Stock.objects.aggregate(total_tonnage=Sum('tonnage'))['total_tonnage'] or 0
+    low_stock_threshold = 5  # You can adjust this threshold
+    low_stock_products = Stock.objects.filter(tonnage__lt=low_stock_threshold)
+
+    # Recent Sales (Let's get the last 5 sales, you can adjust the number)
+    recent_sales = Sales.objects.filter(salesagent_name=request.user).order_by('-id')[:4] #ch
+    # Recent Credit Issued (Let's get the last 5 credit entries)
+    recent_credit = Credit.objects.order_by('-Dispatch_date')[:4]
+
     context = {
         'total_sales': total_sales,
+        'total_stock': total_stock,
+        'low_stock_products': low_stock_products,
+        'recent_sales': recent_sales,
+        'recent_credit': recent_credit,
+        'username': request.user.username,  # It's better to pass username explicitly
     }
     return render(request, 'dash1.html', context)
 
     
     
-
-    
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout
-from django.contrib.auth.models import Group
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import logout
 
 def Logout(request):
     """
