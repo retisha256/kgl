@@ -98,7 +98,7 @@
     text-align: center;
     padding: 15px;
     border-top: 1px solid #495057; /* Subtle gray border */
-    position: fixed;
+    
     bottom: 0;
     width: 100% ; /* Adjust for sidebar */
     margin-left: 179px;
@@ -181,17 +181,17 @@ tbody tr:hover {
 
 /* Ensure the footer is positioned correctly with the sidebar */
 footer {
-    background-color: #343a40;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    border-top: 1px solid #495057; /* Subtle gray border */
-    position: fixed;
-    bottom: 0;
-    width: 100% ; /* Adjust for sidebar */
-    margin-left: 179px;
-    box-sizing: border-box;
-}
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #495057;
+            padding-bottom: 20px;
+            bottom: 0;
+            width: calc(100% - 179px); /* Adjust footer width to match container */
+            margin-left: 179px; /* Align with the container */
+            box-sizing: border-box;  /* Include padding and border in footer's total width/height */
+        }
 
 /* Adjust table margin to account for sidebar */
 /*table {
@@ -846,15 +846,45 @@ table {
     margin-top: 20px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
+}
+th{
+    color:whitesmoke;
+    background-color: #0b3d55;
 }
 
-thead th {
-    background-color: #007bff;
-    color: white;
+
+.table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px auto 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 0.5rem;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+        background-color: #fff;
+    }
+
+    .thead-light th {
+        background-color:rgb(14, 136, 207);
+    color:whitesmoke;
     padding: 10px;
     text-align: left;
-    border-bottom: 2px solid #0056b3;
-}
+    border-bottom: 2px solid #0056b3;}
+
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
 
 tbody td {
     padding: 10px;

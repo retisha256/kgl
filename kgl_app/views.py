@@ -19,32 +19,39 @@ from django.db.models import Sum, Q
 # Create your views here.
 # view for indexpage
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+
 def Login(request):
     """
     Handles user login based on their role (owner, manager, sales agent).
     Redirects to the appropriate dashboard upon successful authentication.
     Displays an error message if authentication fails.
     """
+    error_message = None  # Initialize an error message variable
+
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        if user is not None and user.is_owner:
-            login(request, user)
-            return redirect('/dashboard2/')
-
-        if user is not None and user.is_manager:
-            login(request, user)
-            return redirect('/dash2/')
-
-        if user is not None and user.is_salesagent:
-            login(request, user)
-            return redirect('/dash1/')
+        if user is not None:
+            if user.is_owner:
+                login(request, user)
+                return redirect('/dashboard2/')
+            elif user.is_manager:
+                login(request, user)
+                return redirect('/dash2/')
+            elif user.is_salesagent:
+                login(request, user)
+                return redirect('/dash1/')
+            else:
+                error_message = "Your account doesn't have a defined role."
         else:
-            print("Sorry!, something went wrong")
-    form = AuthenticationForm()
-    return render(request, 'login.html', {"form": form})
+            error_message = "Invalid username or password."
 
+    form = AuthenticationForm()
+    return render(request, 'login.html', {"form": form, "error_message": error_message})
 def signup(request):
     """
     Handles user registration. Creates a new user upon successful form submission
@@ -176,7 +183,7 @@ def detail(request, stock_id):
     return render(request, 'detail.html', {'stock': stock})
 
 # view for deleting stock
-@login_required
+
 @user_passes_test(is_manager_check)
 def delete_stock(request, stock_id):
     """
@@ -248,38 +255,11 @@ def delete_credit(request, credit_id):
     if request.method == 'POST':
         credit.delete()
         return redirect('delete_credit_list')
-    return render(request, 'delete_credit_confirm.html', {'credit': credit}) # Create this template
-# view for manager
-def manager(request):
-    """
-    Renders the dashboard page for managers (dash2.html).
-    (Note: This view might be redundant as the 'dashboard' view handles role-based rendering)
-    """
-    return render(request, "dash2.html")
+    return render(request, 'delete_credit_confirm.html', {'credit': credit}) 
 
-# view for the owner
-def owner(request):
-    """
-    Renders the dashboard page for owners (dash1.html).
-    (Note: This view might be redundant as the 'dashboard' view handles role-based rendering)
-    """
-    return render(request, 'dashboard2.html')
 
-# view for salesagent
-def salesagent(request):
-    """
-    Renders the dashboard page for sales agents (dashboard2.html - filename mismatch with owner).
-    (Note: This view might be redundant as the 'dashboard' view handles role-based rendering,
-     and the filename seems inconsistent with the owner's dashboard)
-    """
-    return render(request, 'dash1.html')  # Corrected template name to dash1.html
 
-def Logout(request):
-    """
-    Renders the logout confirmation page.
-    (Note: This view only displays the page; the actual logout logic is handled by Django's authentication system)
-    """
-    return render(request, 'logout.html')
+
 
 def delete_sale(request, sale_id):
     """
@@ -401,11 +381,13 @@ def manager(request):
     total_stock=Stock.objects.aggregate(
         total_quantity=Sum('tonnage')
     )['total_quantity'] or 0
+    low_stock_items =Stock.objects.filter(current_stock__lt=10)
     context ={
         'total_cash_sales': total_cash_sales,
         'total_credit_sales': total_credit_sales,
         'total_sales': total_sales,
         'total_stock': total_stock,
+        'low_stock_items':low_stock_items,
     }
     return render(request, 'dash2.html', context)
 
@@ -453,9 +435,7 @@ def owner(request):
     'recent_sales': recent_sales, # Pass recent sales to the template
   }
   return render(request, 'dashboard2.html', context)
-from django.shortcuts import render
-from django.db.models import Sum
-from .models import Sales, Stock, Credit  # Import your models
+
 
 def salesagent(request):
     """
@@ -491,22 +471,9 @@ def salesagent(request):
     
 
 def Logout(request):
-    """
-    Renders the logout confirmation page.
-    If the user confirms (by submitting a POST request), they are logged out
-    and redirected to the appropriate dashboard based on their user type
-    (owner, manager, sales agent).
-    """
     if request.method == 'POST':
         logout(request)
-        # Get the user's attributes and redirect
-        if request.user.is_owner:
-            return redirect('dashboard2')  # Redirect to owner dashboard
-        elif request.user.is_manager:
-            return redirect('dash2')  # Redirect to manager dashboard
-        elif request.user.is_salesagent:
-            return redirect('dash1')  # Redirect to sales agent dashboard
-        else:
-            return redirect('dash')  # Default dashboard for other users
+        return redirect('/')
+    
 
     return render(request, 'logout.html')

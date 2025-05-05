@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Summary</title>
+{% extends 'base.html' %}
     <style>
         body {
             font-family: sans-serif;
@@ -132,11 +127,24 @@
 .back-to-sales-button {
     text-decoration: none; /* Remove underline from link */
 }
-
+footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #495057;
+            padding-bottom: 20px;
+            bottom: 0;
+            width: calc(100% - 179px); /* Adjust footer width to match container */
+            margin-left: 179px; /* Align with the container */
+            box-sizing: border-box;  /* Include padding and border in footer's total width/height */
+        }
 
          </style>
 </head>
 <body>
+{% block content %}    
+
     <div class="card">
         <div class="card_header">
             <h1 class="text-center">Order Summary</h1>
@@ -175,5 +183,7 @@
     
        
     </div>
+</div>    
+{% endblock %}    
 </body>
 </html>

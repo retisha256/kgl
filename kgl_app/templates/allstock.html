@@ -7,52 +7,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INVENTORY MANAGEMENT SYSTEM</title>
     <link rel="stylesheet" href="{% static 'allsales.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-       
+        .card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
 
+.card-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* Rest of your existing CSS... */
     </style>
-  
 </head>
 <body>
     {% block content %}
-    
-    <header style="border-bottom: 1px solid #ccc; padding-bottom: 8px; margin-bottom: 10px;">
-        <h1><strong>Summary of produce stocked</strong></h1>
-      </header>
-    
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Product name</th>
-                <th>Tonnage</th>
-                <th>Cost</th>
-                <th>supplier</th>
-                {% if user.is_manager or user.is_salesagent%}
-                <th>Action</th>
-                {% endif %}
-                
-                
-            </tr>
-            {% for stock in stocks %}
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ stock.name_of_produce }}</td>
-                <td>{{ stock.tonnage }}kgs</td>
-                <td> Ugx.{{ stock.cost }}</td>
-                <td>{{ stock.name_of_dealer }}</td>
-                <td>
-                 {% if user.is_manager or user.is_salesagent %}   
-                <a href="{% url 'detail' stock.id %}"><input type="submit" value ="View"></a>
-               <a href="{% url 'addstock' stock.id %}"><input type="submit" value="Add" class="add-item-button"></a>
-                <a href="{% url 'delete_stock' stock_id=stock.id%}"><input type="submit" value="delete" style="background-color:orangered; color: white;"></a>
-                {% endif %}
-            </td>
-            </tr>
-        </tbody>
-        {% endfor %}
-    </table>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title-stock"style="color:white;"><strong>Produce Stocked</strong></h1>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product name</th>
+                        <th>Tonnage</th>
+                        <th>Cost</th>
+                        <th>Supplier</th>
+                        {% if user.is_manager or user.is_salesagent %}
+                        <th style="text-align: center;">Action</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in stocks %}
+                    <tr>
+                        <td>{{ stock.name_of_produce }}</td>
+                        <td>{{ stock.tonnage }} kgs</td>
+                        <td> Ugx.{{ stock.cost }}</td>
+                        <td>{{ stock.name_of_dealer }}</td>
+                        <td style="text-align: center;">
+                            {% if user.is_manager or user.is_salesagent %}
+                            <a href="{% url 'detail' stock.id %}"><i class="fa fa-eye" style="color:blue;"></i></a>
+                            <a href="{% url 'addstock' stock.id %}"><i class="fa fa-pencil"></i></a>
+                            <a href="{% url 'delete_stock' stock_id=stock.id %}"><i class="fa fa-trash"></i></a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="{% if user.is_manager or user.is_salesagent %}5{% else %}4{% endif %}" style="text-align: center;">No produce stocked yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
     {% endblock %}
-   
 </body>
 </html>

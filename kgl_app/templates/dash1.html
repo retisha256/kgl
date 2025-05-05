@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="container">
-    <h1>Welcome,{{ request.username }} </h1>
+    <h1>Welcome,{{ request.user.username }} </h1>
 
     <div class="row">
         <div class="col-md-6">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="card-body">
                     {% if total_stock %}
-                        <h2>{{ total_stock }} Units</h2>
+                        <h2>{{ total_stock }} Kgs</h2>
                         <p class="card-text"><small class="text-muted">Total quantity of all stock items.</small></p>
                         {% if low_stock_products %}
                             <p class="card-text text-warning">

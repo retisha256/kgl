@@ -6,8 +6,8 @@
 
 {% block content %}
 <div class="container mt-5">
-    h
-    <h1 style="margin-left: 200px;color: #000;">Owner Dashboard</h1>
+    
+    <h1 style="margin-left: 200px;color: #000;">Director Dashboard</h1>
     <h1 style="margin-left: 150px;">Welcome, Mr .{{ request.user.username }}!</h1>
     <div class="dashboard-container">
         <div class="sidebar">
@@ -61,17 +61,7 @@
     </div>
 </div>
 
-<footer style="background-color: #343a40;
-color: white;
-text-align: 220px;
-padding: 15px;
-border-top: 1px solid #495057; /* Subtle gray border */
-position: fixed;
-bottom: 0;
-width: 100% ; /* Adjust for sidebar */
-margin-left: 60px;">
-    <p style="text-align: center;">&copy; 2025 Karibu Groceries Ltd. All rights reserved.</p>
-</footer>
+
 {% endblock %}
 
 {% block styles %}
@@ -84,3 +74,6 @@ footer {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </style>
 {% endblock %}
+
+
+

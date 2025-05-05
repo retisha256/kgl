@@ -119,6 +119,7 @@ class Credit(models.Model):
     type_of_produce =models.ForeignKey(ProduceType,on_delete=models.CASCADE,null=True)
     tonnage =models.IntegerField(blank = False)
     Dispatch_date=models.DateTimeField(auto_now_add=True)
+    is_paid = models.BooleanField(default=False)  #
      
     def __str__(self):
         return self.buyer_name     
