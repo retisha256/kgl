@@ -1,53 +1,236 @@
+{% extends 'base.html' %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'edit.css'%}">
-  {% block content %}
-  
-  <form method="post" class="sale-form">
-    <h1>Edit Sale</h1>
-    {% csrf_token %}
-    {% if form.errors %}
-    <div class="alert alert-danger">
-      {{ form.errors }}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    .edit-sale-container {
+        background-color: #f8f9fa;
+        padding: 30px 0;
+        min-height: 100vh;
+        margin-left: 180px;
+    }
+    
+    .edit-sale-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: none;
+        overflow: hidden;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .card-header-edit {
+        background-color: #0e88cf;
+        color: white;
+        padding: 20px;
+        border-bottom: none;
+    }
+    
+    .card-title-edit {
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .card-body-edit {
+        padding: 30px;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 8px;
+    }
+    
+    .form-control {
+        border-radius: 5px;
+        padding: 10px 15px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #0e88cf;
+        box-shadow: 0 0 0 0.25rem rgba(14, 136, 207, 0.25);
+    }
+    
+    .form-check-input:checked {
+        background-color: #0e88cf;
+        border-color: #0e88cf;
+    }
+    
+    .btn-save {
+        background-color: #0e88cf;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-save:hover {
+        background-color: #0c76b4;
+        transform: translateY(-1px);
+    }
+    
+    .btn-cancel {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .btn-cancel:hover {
+        background-color: #5a6268;
+        transform: translateY(-1px);
+    }
+    
+    .error-message {
+        color: #dc3545;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+    
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #842029;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        .card-body-edit {
+            padding: 20px;
+        }
+        
+        .btn-save,
+        .btn-cancel {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+
+<div class="container-fluid edit-sale-container py-4">
+    <div class="card edit-sale-card">
+        <div class="card-header card-header-edit">
+            <h1 class="card-title-edit">
+                <i class="fas fa-edit me-2"></i>Edit Sale
+            </h1>
+        </div>
+        
+        <div class="card-body card-body-edit">
+            <form method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                    Please correct the errors below
+                </div>
+                {% endif %}
+                
+                <div class="mb-4">
+                    <label for="{{ form.product_name.id_for_label }}" class="form-label">Product Name</label>
+                    {{ form.product_name }}
+                    {% if form.product_name.errors %}
+                    <div class="error-message">{{ form.product_name.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ form.tonnage.id_for_label }}" class="form-label">Tonnage (kg)</label>
+                    {{ form.tonnage }}
+                    {% if form.tonnage.errors %}
+                    <div class="error-message">{{ form.tonnage.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ form.amount_paid.id_for_label }}" class="form-label">Amount Paid (UGX)</label>
+                    {{ form.amount_paid }}
+                    {% if form.amount_paid.errors %}
+                    <div class="error-message">{{ form.amount_paid.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ form.selling_price.id_for_label }}" class="form-label">Selling Price (UGX)</label>
+                    {{ form.selling_price }}
+                    {% if form.selling_price.errors %}
+                    <div class="error-message">{{ form.selling_price.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ form.buyers_name.id_for_label }}" class="form-label">Buyer's Name</label>
+                    {{ form.buyers_name }}
+                    {% if form.buyers_name.errors %}
+                    <div class="error-message">{{ form.buyers_name.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ form.salesagent_name.id_for_label }}" class="form-label">Sales Agent</label>
+                    {{ form.salesagent_name }}
+                    {% if form.salesagent_name.errors %}
+                    <div class="error-message">{{ form.salesagent_name.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4">
+                    <label for="{{ form.branch.id_for_label }}" class="form-label">Branch</label>
+                    {{ form.branch }}
+                    {% if form.branch.errors %}
+                    <div class="error-message">{{ form.branch.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-4 form-check form-switch">
+                    {{ form.is_sold_on_cash }}
+                    <label class="form-check-label" for="{{ form.is_sold_on_cash.id_for_label }}">Sold on Cash</label>
+                    {% if form.is_sold_on_cash.errors %}
+                    <div class="error-message">{{ form.is_sold_on_cash.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="d-flex flex-wrap justify-content-between mt-4">
+                    <button type="submit" class="btn-save">
+                        <i class="fas fa-save me-2"></i>Save Changes
+                    </button>
+                    <a href="{% url 'allsales' %}" class="btn-cancel">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-    {% endif %}
-  
-    <div class="form-group">
-      <label for="{{ form.product_name.id_for_label }}">Product:</label>
-      {{ form.product_name }}
-    </div>
-    <div class="form-group">
-      <label for="{{ form.tonnage.id_for_label }}">Tonnage:</label>
-      {{ form.tonnage }}
-    </div>
-    <div class="form-group">
-      <label for="{{ form.amount_paid.id_for_label }}">Amount Paid:</label>
-      {{ form.amount_paid }}
-    </div>
-    <div class="form-group">
-      <label for="{{ form.buyers_name.id_for_label }}">Buyer's Name:</label>
-      {{ form.buyers_name }}
-    </div>
-    <div class="form-group">
-      <label for="{{ form.salesagent_name.id_for_label }}">Sales Agent:</label>
-      {{ form.salesagent_name }}
-    </div>
-    <div class="form-group">
-      <label for="{{ form.is_sold_on_cash.id_for_label }}">Sold on Cash:</label>
-      {{ form.is_sold_on_cash }}
-    </div>
-    <div class="form-group">
-      <label for="{{ form.branch.id_for_label }}">Branch:</label>
-      {{ form.branch }}
-    </div>
-    <div class="form-group">
-      <label for="{{ form.selling_price.id_for_label }}">Selling Price</label>
-      {{ form.selling_price }}
-    </div>
-  
-    <div class="button-container">
-      <button type="submit" class="save-button">Save Changes</button>
-      <a href="{% url 'allsales' %}" class="cancel-button">Cancel</a>
-    </div>
-  </form>
-  {% endblock %}
-  
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Enable Bootstrap form validation
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+{% endblock %}

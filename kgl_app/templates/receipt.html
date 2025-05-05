@@ -1,125 +1,171 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <style>
-  
-
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa; /* Light gray background */
-    padding: 20px;
-}
-
-.receipt-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-    gap: 20px; /* Spacing between grid items */
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e0e0; /* Subtle border */
-}
-
-.cardbody {
-    padding: 20px;
-    border-bottom: 1px dashed #ccc; /* Separator between sale details */
-}
-
-.cardbody:last-child {
-    border-bottom: none; /* No separator for the last sale detail */
-}
-
-
-
-
-.btn-danger:hover {
-    background-color: #f2f618; /* Yellow on hover */
-}
-
-/* Style the container for the button to align it to the right */
-.cardbody > div {
-    display: flex;
-    justify-content: flex-end; /* Align button to the right */
-    align-items: center; /* Vertically align items in the flex container */
-}
-
-/* Adjust margin for the button to create some space */
-.cardbody > div a {
-    margin-left: 10px;
-}
-</style>
- 
-<link rel="stylesheet" href="{% static 'receipt.css' %}">
-<body style="font-family: 'Arial', sans-serif;
-background-color: #f8f9fa; /* Light gray background */
-padding: 20px;">
-  {% block content %}
-  <h1><strong>Summary of receipts</strong></h1>
-  <div class="receipt-grid" style="display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-  gap: 20px; /* Spacing between grid items */">
+    .receipt-container {
+        padding: 20px;
+        background-color: #f8f9fa;
+    }
     
-    {% for sale in sales %}
-    <div class="card"style="background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e0e0; /* Subtle border */">
-      <div class="cardbody"style="padding: 20px;
-    border-bottom: 1px dashed #ccc; ">
-        <h3 style="color: #495057; /* Dark gray heading */
-    font-size: 1.1rem;
-    margin-top: 5px;
-    margin-bottom: 5px">Customer: {{ sale.buyers_name }}</h3 style="color: #495057; /* Dark gray heading */
-    font-size: 1.1rem;
-    margin-top: 5px;
-    margin-bottom: 5px">
-        <h3 style="color: #495057; /* Dark gray heading */
-    font-size: 1.1rem;
-    margin-top: 5px;
-    margin-bottom: 5px">Item: {{ sale.product_name }}</h3 >
-        <h3 style="color: #495057; /* Dark gray heading */
-    font-size: 1.1rem;
-    margin-top: 5px;
-    margin-bottom: 5px">Unit price: {{ sale.selling_price }}</h3">
-        <h3 style="color: #495057; /* Dark gray heading */
-    font-size: 1.1rem;
-    margin-top: 5px;
-    margin-bottom: 5px">Amount paid: {{ sale.amount_paid }}</h3 >
-        <h3 style="color: #495057; /* Dark gray heading */
-    font-size: 1.1rem;
-    margin-top: 5px;
-    margin-bottom: 5px">Quantity: {{ sale.tonnage }}</h3 >
-        <h2 style="color: #0a0faf; /* Blue for total price */
-        font-size: 1.4rem;
-        margin-top: 10px;
-        margin-bottom: 15px;
-        font-weight: bold;">Total price: Ugx {{ sale.total_sales }}</h2>
+    .page-title {
+        color: #0e88cf;
+        font-weight: 600;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #0e88cf;
+    }
+    
+    .receipt-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Increased card width */
+        gap: 12px; /* Reduced space between cards */
+    }
+    
+    .receipt-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: none;
+        overflow: hidden;
+        transition: transform 0.2s ease;
+        height: 100%; /* Make cards fill the grid row */
+    }
+    
+    .receipt-card:hover {
+        transform: translateY(-3px);
+    }
+    
+    .card-body-receipt {
+        padding: 20px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .receipt-item {
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px dashed #e0e0e0;
+    }
+    
+    .receipt-item:last-child {
+        border-bottom: none;
+    }
+    
+    .receipt-label {
+        font-weight: 600;
+        color: #495057;
+        font-size: 1rem; /* Slightly larger font */
+    }
+    
+    .receipt-value {
+        color: #212529;
+        font-size: 1.05rem; /* Slightly larger font */
+    }
+    
+    .total-price {
+        color: #0e88cf;
+        font-size: 1.25rem; /* Slightly larger font */
+        font-weight: 600;
+        margin: 15px 0;
+    }
+    
+    .change-collected {
+        color: #dc3545;
+        font-weight: 500;
+        font-size: 1rem; /* Slightly larger font */
+    }
+    
+    .receipt-btn {
+        background-color: #0e88cf;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .receipt-btn:hover {
+        background-color: #0c76b4;
+        color: white;
+        transform: translateY(-1px);
+    }
+    
+    .receipt-btn i {
+        margin-right: 8px;
+    }
+    
+    @media (max-width: 768px) {
+        .receipt-grid {
+            grid-template-columns: 1fr;
+            gap: 15px; /* Slightly more space on mobile */
+        }
+    }
+</style>
 
-        <div style="flex:1;">
-          <h6 class="card-text" style="color: #db0f64; /* Pink text */
-          font-size: 0.9rem;
-          margin-top: 5px;
-          margin-bottom: 10px;">
-            Change Collected: Ugx {{ sale.calculate_change }}
-          </h6>
-          <a href="{% url 'receipt_detail' sale.id %}"><input type="submit" value="Final Receipt" class='btn btn-danger me-2 'style="    background-color: #b035dc; /* Purple button */
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            text-decoration: none; /* Remove underline from link */
-            transition: background-color 0.2s ease-in-out;"
-          ></a>
+<div class="container-fluid receipt-container py-4">
+    <h1 class="page-title">
+        <i class="fas fa-receipt me-2"></i>Summary of Receipts
+    </h1>
+    
+    <div class="receipt-grid">
+        {% for sale in sales %}
+        <div class="card receipt-card">
+            <div class="card-body card-body-receipt">
+                <div class="receipt-item">
+                    <div class="receipt-label">Customer</div>
+                    <div class="receipt-value">{{ sale.buyers_name }}</div>
+                </div>
+                
+                <div class="receipt-item">
+                    <div class="receipt-label">Item</div>
+                    <div class="receipt-value">{{ sale.product_name }}</div>
+                </div>
+                
+                <div class="receipt-item">
+                    <div class="receipt-label">Unit Price</div>
+                    <div class="receipt-value">UGX {{ sale.selling_price|floatformat:2 }}</div>
+                </div>
+                
+                <div class="receipt-item">
+                    <div class="receipt-label">Amount Paid</div>
+                    <div class="receipt-value">UGX {{ sale.amount_paid|floatformat:2 }}</div>
+                </div>
+                
+                <div class="receipt-item">
+                    <div class="receipt-label">Quantity</div>
+                    <div class="receipt-value">{{ sale.tonnage }}</div>
+                </div>
+                
+                <div class="total-price">
+                    Total Price: UGX {{ sale.total_sales|floatformat:2 }}
+                </div>
+                
+                <div class="mt-auto"> <!-- Pushes button to bottom -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="change-collected">
+                            <i class="fas fa-coins me-1"></i>
+                            Change: UGX {{ sale.calculate_change|floatformat:2 }}
+                        </div>
+                        
+                        <a href="{% url 'receipt_detail' sale.id %}" class="receipt-btn">
+                            <i class="fas fa-file-invoice"></i> Final Receipt
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-  
-  {% endblock %}
-</body>
-</html>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

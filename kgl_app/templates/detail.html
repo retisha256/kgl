@@ -1,153 +1,164 @@
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
-    <div class="stock-detail-container">
-        <h1>{{ stock.name_of_produce }} Details</h1>
-        <p><strong>Type of Produce:</strong> {{ stock.type_of_produce }}</p>
-        <p><strong>Date and Time:</strong> {{ stock.date_and_time_of_produce }}</p>
-        <p><strong>Tonnage:</strong> {{ stock.tonnage }}</p>
-        <p><strong>Cost:</strong> {{ stock.cost }}</p>
-        <p><strong>Dealer:</strong> {{ stock.name_of_dealer }}</p>
-        <p><strong>Branch:</strong> {{ stock.branch }}</p>
-        <p><strong>Contact:</strong> {{ stock.contact }}</p>
-        <p><strong>Selling Price:</strong> {{ stock.selling_price }}</p>
-        <p><strong>Current Stock:</strong> {{ stock.current_stock }}</p>
-
-        <div class="stock-detail-actions">
-            <a href="{% url 'issue_item' stock.id %}" class="button sell-button">Sell Item</a>
-            <a href="{% url 'addstock' stock.id %}" class="button add-button">Add Item</a>
-            <a href="{% url 'allstock' %}" class="button back-button">Back to All Stock</a>
-        </div>
-    </div>
-{% endblock %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-    /* static/style.css */
-
-    body {
-        font-family: sans-serif;
-        background-color: #f8f9fa;
-        color: #333;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
-
-    .content {
-        flex-grow: 1;
-        padding: 30px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-        margin: 20px;
-    }
-
-    .stock-detail-container {
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    h1 {
-        color: #007bff;
-        border-bottom: 2px solid #007bff;
-        padding-bottom: 15px;
-        margin-bottom: 25px;
-        font-size: 2.5rem;
-    }
-
-    p {
-        line-height: 1.8;
-        margin-bottom: 15px;
-        font-size: 1.1rem;
-        color: #555;
-    }
-
-    p strong {
-        font-weight: bold;
-        color: #333;
-    }
-
-    .stock-detail-actions {
-        margin-top: 30px;
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .button {
-        display: inline-block;
-        color: #fff;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-        font-size: 1rem;
+    .stock-card {
         border: none;
-        cursor: pointer;
-        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        margin-bottom: 30px;
     }
-
-    .sell-button {
-        background-color: #dc3545; /* Danger red */
+    
+    .card-header-stock {
+        background-color: #0e88cf;
+        color: white;
+        padding: 15px 20px;
+        border-bottom: none;
     }
-
-    .sell-button:hover {
-        background-color: #c82333;
+    
+    .card-title-stock {
+        font-weight: 600;
+        margin: 0;
     }
-
-    .add-button {
-        background-color: #28a745; /* Success green */
+    
+    .detail-item {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
     }
-
-    .add-button:hover {
-        background-color: #218838;
+    
+    .detail-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 5px;
     }
-
-    .back-button {
-        background-color: #007bff; /* Primary blue */
+    
+    .detail-value {
+        color: #212529;
+        font-size: 1.05rem;
     }
-
-    .back-button:hover {
-        background-color: #0056b3;
+    
+    .action-btn {
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        margin-right: 10px;
     }
-
-    /* If you have a sidebar, adjust the content margin */
-    .sidenav + .content {
-        margin-left: 240px; /* Adjust based on your sidebar width + margin */
+    
+    .sell-btn {
+        background-color: #dc3545;
+        color: white;
+        border: none;
     }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .content {
-            margin: 15px;
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-        }
-
-        p {
-            font-size: 1rem;
-            margin-bottom: 10px;
-        }
-
-        .stock-detail-actions {
-            flex-direction: column;
-            align-items: stretch;
-        }
-
-        .button {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .sidenav + .content {
-            margin-left: 0;
-        }
+    
+    .add-btn {
+        background-color: #0e88cf;
+        color: white;
+        border: none;
+    }
+    
+    .back-btn {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+    }
+    
+    .action-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+        color: white;
+    }
+    
+    .badge-value {
+        background-color: #e2f0fb;
+        color: #0e88cf;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-weight: 500;
     }
 </style>
+
+<div class="container-fluid py-4">
+    <div class="card stock-card">
+        <div class="card-header card-header-stock">
+            <h1 class="card-title-stock">
+                <i class="fas fa-box-open me-2"></i>{{ stock.name_of_produce }} Details
+            </h1>
+        </div>
+        
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="detail-item">
+                        <div class="detail-label">Type of Produce</div>
+                        <div class="detail-value">{{ stock.type_of_produce }}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Date and Time</div>
+                        <div class="detail-value">{{ stock.date_and_time_of_produce }}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Tonnage</div>
+                        <div class="detail-value"><span class="badge-value">{{ stock.tonnage }}</span></div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Cost</div>
+                        <div class="detail-value">UGX {{ stock.cost|floatformat:2 }}</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="detail-item">
+                        <div class="detail-label">Dealer</div>
+                        <div class="detail-value">{{ stock.name_of_dealer }}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Branch</div>
+                        <div class="detail-value">{{ stock.branch }}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Contact</div>
+                        <div class="detail-value">{{ stock.contact }}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Selling Price</div>
+                        <div class="detail-value">UGX {{ stock.selling_price|floatformat:2 }}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Current Stock</div>
+                        <div class="detail-value"><span class="badge-value">{{ stock.current_stock }}</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex flex-wrap mt-4">
+                <a href="{% url 'issue_item' stock.id %}" class="action-btn sell-btn me-3 mb-2">
+                    <i class="fas fa-cash-register me-1"></i> Sell Item
+                </a>
+                <a href="{% url 'addstock' stock.id %}" class="action-btn add-btn me-3 mb-2">
+                    <i class="fas fa-plus-circle me-1"></i> Add Item
+                </a>
+                <a href="{% url 'allstock' %}" class="action-btn back-btn mb-2">
+                    <i class="fas fa-arrow-left me-1"></i> Back to All Stock
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}

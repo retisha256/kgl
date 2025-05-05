@@ -22,6 +22,11 @@
         margin: 0;
     }
     
+    .title-icon {
+        color: #0e88cf; /* Matching the title color */
+        margin-right: 10px;
+    }
+    
     .add-sale-btn {
         background-color: #0e88cf;
         color: white;
@@ -106,13 +111,15 @@
 
 <div class="container-fluid py-4">
     <div class="sales-header">
-        <h1 class="sales-title"style="margin-left:180px;"><strong>Sales Made</strong></h1>
+        <h1 class="sales-title" style="margin-left:180px;">
+            <i class="fas fa-shopping-cart title-icon"></i><strong>Sales Made</strong>
+        </h1>
         <a href="{% url 'addsale' %}" class="add-sale-btn">
             <i class="fas fa-plus me-2"></i>Add Sale
         </a>
     </div>
 
-    <div class="table-container"style="width:90%;margin-left:160px;">
+    <div class="table-container" style="width:90%;margin-left:160px;">
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead>

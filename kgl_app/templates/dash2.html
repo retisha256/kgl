@@ -41,7 +41,7 @@
             padding: 20px;
         }
         .card-header {
-            background-color: #ADD8E6;
+            background-color: #0e88cf;
             color: white;
         }
         .card-body {
@@ -51,14 +51,12 @@
             background-color: #e9ecef;
             padding: 20px;
         }
-        footer {
-            background-color: #343a40;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            margin-top: auto; /* Push footer to the bottom */
-            width: 100%;
-        }
+       
+h1{
+    color: #0e88cf;
+        font-weight: 600;
+        margin: 0;
+}        
     </style>
 </head>
 <body>
@@ -104,30 +102,8 @@
                         <div class="card-body"><strong>{{ total_stock }}Kgs</strong></div>
                     </div>
                 </div>
-                <div class="col-md-4 mt-4">
-                    <div class="card">
-                        <div class="card-header"> Stock by Product and Branch</div>
-                        <div class="stock-grid">
-                            {% for stock in combined_stocks %}
-                            <div class="stock-card">
-                                <div class="stock-info">
-                                    <h4>{{ stock.name }}</h4>
-                                    <p class="quantity">Total: {{ stock.total_quantity }} kg</p>
-                                    <div class="branch-quantities">
-                                        {% for branch, quantity in stock.branches.items %}
-                                        <div class="branch-quantity">
-                                            <span class="branch-name">{{ branch }}</span>
-                                            <span class="branch-amount">{{ quantity }} kg</span>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div> 
-                <div class="col-md-4 mt-4">
+               
+                <div class="col-md-8 mt-4">
                     <div class="card">
                         <div class="card-header">Low stock</div>
                         <div class="card-body"><strong>{{ low_stock_items.count  }}</strong></div>
@@ -136,8 +112,6 @@
             </div>
         </div>
     </div>
-    <footer>
-        <p>&copy; 2025 Karibu Groceries Ltd. All rights reserved.</p>
-    </footer>
+    
 </body>
 </html>

@@ -2,133 +2,162 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-lg my-5">
-                <div class="card-header bg-warning text-white py-3">
-                    <h2 class="card-title d-flex align-items-center">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <span class="font-weight-bold">Confirm Logout</span>
-                    </h2>
-                </div>
-                <div class="card-body text-center">
-                    <p class="lead mb-4">Are you sure you want to logout?</p>
-                    <form method="post" action="{% url 'logout' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-lg me-3">
-                            <i class="bi bi-door-open-fill me-2"></i>
-                            <span class="font-weight-semibold">Yes, Logout</span>
-                        </button>
-                        
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-                            <a href="{% url 'dash' %}" class="btn btn-secondary btn-lg">
-                                <i class="bi bi-x-circle-fill me-2"></i>
-                                <span class="font-weight-semibold">Cancel</span>
-                            </a>
-                     
-                    </form>
+<style>
+    .logout-container {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .logout-card {
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        max-width: 500px;
+        width: 100%;
+    }
+    
+    .card-header-logout {
+        
+        color: rgb(95, 93, 93);
+        padding: 20px;
+        text-align: center;
+        border-bottom: none;
+    }
+    
+    .card-title-logout {
+        font-weight: 600;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .card-body-logout {
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .logout-message {
+        font-size: 1.2rem;
+        color: #495057;
+        margin-bottom: 30px;
+    }
+    
+    .btn-logout {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+    
+    .btn-logout:hover {
+        background-color: #c82333;
+        transform: translateY(-1px);
+        color: white;
+    }
+    
+    .btn-cancel {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .btn-cancel:hover {
+        background-color: #5a6268;
+        transform: translateY(-1px);
+        color: white;
+    }
+    
+    .card-footer-logout {
+        background-color: #f8f9fa;
+        color: #6c757d;
+        padding: 15px;
+        text-align: center;
+        border-top: 1px solid #eee;
+        font-size: 0.9rem;
+    }
+    
+    .icon-warning {
+        color: white;
+        margin-right: 10px;
+        font-size: 1.3rem;
+    }
+    
+    .btn-icon {
+        margin-right: 8px;
+    }
+    
+    @media (max-width: 576px) {
+        .card-body-logout {
+            padding: 20px;
+        }
+        
+        .btn-logout, 
+        .btn-cancel {
+            width: 100%;
+            margin-bottom: 10px;
+            margin-right: 0;
+            justify-content: center;
+        }
+        
+        .button-group {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="logout-container">
+    <div class="card logout-card">
+        <div class="card-header card-header-logout">
+            <h2 class="card-title-logout">
+                <i class="fas fa-exclamation-triangle icon-warning"></i>
+                Confirm Logout
+            </h2>
+        </div>
+        
+        <div class="card-body card-body-logout">
+            <p class="logout-message">Are you sure you want to logout?</p>
+            
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <div class="d-flex flex-wrap justify-content-center button-group">
+                    <button type="submit" class="btn-logout">
+                        <i class="fas fa-sign-out-alt btn-icon"></i>
+                        Yes, Logout
+                    </button>
+                    <a href="{% url 'dash' %}" class="btn-cancel">
+                        <i class="fas fa-times-circle btn-icon"></i>
+                        Cancel
+                    </a>
                 </div>
-                <div class="card-footer bg-light text-muted text-center py-2">
-                    <small>Thank you for using Karibu Groceries Ltd Inventory System.</small>
-                </div>
-            </div>
+            </form>
+        </div>
+        
+        <div class="card-footer card-footer-logout">
+            Thank you for using Karibu Groceries Ltd Inventory System.
         </div>
     </div>
 </div>
-{% endblock %}
 
-{% block styles %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.17.0/font/bootstrap-icons.css">
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-
-    .card {
-        border-radius: 10px;
-        border: 1px solid #e0e0e0;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-header {
-        background-color: #ffc107;
-        color: #343a40;
-        padding: 1.5rem;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        display: flex;
-        align-items: center;
-        border-bottom: 1px solid #f0b207;
-    }
-
-    .card-header h2 {
-        font-size: 1.5rem;
-        margin-bottom: 0;
-        font-weight: bold;
-    }
-
-    .card-body {
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .card-body p {
-        font-size: 1.2rem;
-        color: #555;
-        margin-bottom: 2rem;
-    }
-
-    .btn-danger {
-        background-color: #dc3545;
-        border: none;
-        border-radius: 5px;
-        padding: 0.8rem 1.5rem;
-        font-size: 1.1rem;
-        transition: background-color 0.3s ease, box-shadow 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-danger:hover {
-        background-color: #c82333;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-    }
-
-    .btn-secondary {
-        background-color: #e2e3e4;
-        color: #343a40;
-        border: none;
-        border-radius: 5px;
-        padding: 0.8rem 1.5rem;
-        font-size: 1.1rem;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-secondary:hover {
-        background-color: #d3d4d5;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-    }
-
-    .card-footer {
-        background-color: #f8f9fa;
-        border-top: 1px solid #dee2e6;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-        padding: 0.75rem;
-        text-align: center;
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-
-    .bi-exclamation-triangle-fill {
-        font-size: 1.5rem;
-        margin-right: 0.5rem;
-        color: #b8860b;
-    }
-
-    .bi-door-open-fill,
-    .bi-x-circle-fill {
-        font-size: 1.1rem;
-    }
-</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

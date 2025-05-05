@@ -52,23 +52,7 @@ def Login(request):
 
     form = AuthenticationForm()
     return render(request, 'login.html', {"form": form, "error_message": error_message})
-def signup(request):
-    """
-    Handles user registration. Creates a new user upon successful form submission
-    and redirects them to the login page.
-    """
-    if request.method == "POST":
-        form = SalesAgentSignUpForm(request.POST)  # Use the new form
-        if form.is_valid():
-            user = form.save()  # Save the user
-            user.is_salesagent = True  # Set the user as a sales agent
-            user.save()
-            login(request, user)
-            return redirect('/login')
-    else:
-        form = SalesAgentSignUpForm()  # Use the new form
-    return render(request, 'signup.html', {'form': form})
-    # Define a function to check for owner status
+
 def is_owner_check(user):
     """
     Checks if the given user has owner status.
@@ -89,6 +73,27 @@ def is_salesagent_check(user):
     """
     return user.is_salesagent
 
+@login_required
+@user_passes_test(is_manager_check)
+def signup(request):
+    """
+    Handles user registration. Creates a new user upon successful form submission
+    and redirects them to the login page.
+    """
+    if request.method == "POST":
+        form = SalesAgentSignUpForm(request.POST)  # Use the new form
+        if form.is_valid():
+            user = form.save()  # Save the user
+            user.is_salesagent = True  # Set the user as a sales agent
+            user.save()
+            login(request, user)
+            return redirect('/login')
+    else:
+        form = SalesAgentSignUpForm()  # Use the new form
+    return render(request, 'signup.html', {'form': form})
+    # Define a function to check for owner status
+
+
 def index(request):
     """
     Renders a generic dashboard page.
@@ -97,6 +102,8 @@ def index(request):
 
 # view for receiptpage
 
+
+@user_passes_test(is_manager_check or is_salesagent_check)
 def receipt(request):
     """
     Displays a list of all sales receipts, ordered by the most recent.
@@ -106,6 +113,7 @@ def receipt(request):
 
 # view for addsales
 
+@user_passes_test(is_manager_check or is_salesagent_check)
 def addsales(request):
     """
     Renders the page for adding new sales (this view might not be directly used
@@ -113,17 +121,20 @@ def addsales(request):
     """
     return render(request, "addsales.html")
 
-# view for addstock
-# Removed redundant definition of is_manager_check here
-
 # view all sales
 def allsales(request):
     """
     Displays a list of all sales records, ordered by the most recent.
+
     """
-    sales = Sales.objects.all().order_by('-id')
+    if request.user.is_manager or request.user.is_salesagent:
+     sales =Sales.objects.filter(branch=request.user.branch)
+    else:
+     sales = Sales.objects.all().order_by('-id')
     return render(request, "allsales.html", {'sales': sales})
 
+
+@user_passes_test(is_manager_check or is_salesagent_check)
 def issue_item(request, pk):
     """
     Handles the process of issuing an item (creating a sale record).
@@ -156,6 +167,8 @@ def issue_item(request, pk):
             return redirect('receipt')
     return render(request, 'issue_item.html', {'sales_form': sales_form})
 
+@user_passes_test(is_manager_check or is_salesagent_check)
+
 def receipt_detail(request, receipt_id):
     """
     Displays the details of a specific sales receipt based on the provided receipt ID.
@@ -164,30 +177,28 @@ def receipt_detail(request, receipt_id):
     return render(request, 'receipt_detail.html', {'receipt': receipt})
 
 # view all stock
-
+#Displays a list of all stock items, ordered by the most recent.
 def allstock(request):
-    """
-    Displays a list of all stock items, ordered by the most recent.
-    """
-    stocks = Stock.objects.all().order_by('-id')
+    if request.user.is_manager or request.user.is_salesagent:
+     stocks =Stock.objects.filter(branch=request.user.branch)
+    else:
+     stocks = Stock.objects.all().order_by('-id')
     return render(request, "allstock.html", {'stocks': stocks})
 
 # view to handle a link for a particular item to sell an item
-
+#Displays the details of a specific stock item based on the provided stock ID.
 def detail(request, stock_id):
-    """
-    Displays the details of a specific stock item based on the provided stock ID.
-    This view might be used to show more information before issuing an item for sale.
-    """
+   
     stock = get_object_or_404(Stock, id=stock_id)
     return render(request, 'detail.html', {'stock': stock})
 
 # view for deleting stock
 
 @user_passes_test(is_manager_check)
+# Handles the deletion of a specific stock item.
 def delete_stock(request, stock_id):
     """
-    Handles the deletion of a specific stock item.
+   
     It retrieves the stock item based on the provided stock ID.
     If the request method is POST, it deletes the stock item and redirects to the all stock page.
     Otherwise, it renders a confirmation page for deleting the stock.
@@ -228,6 +239,7 @@ def addstock(request, pk):
     return render(request, "addstock.html", {'form': form, 'stock_item': issued_item})
 
 # view for addcredit
+
 def addcredit(request):
     """Displays the list of credit entries."""
     credit = Credit.objects.all().order_by("-Dispatch_date")
@@ -244,11 +256,13 @@ def add_credit(request):
         form = AddCreditForm()
     return render(request, 'add_credit_form.html', {'form': form}) # Create this template
 
+@user_passes_test(is_manager_check )
 def delete_credit_list(request):
     """Displays a list of credit entries with checkboxes for deletion."""
     credit = Credit.objects.all().order_by("-Dispatch_date")
     return render(request, 'delete_credit_list.html', {'credit': credit}) # Create this template
 
+@user_passes_test(is_manager_check or is_salesagent_check)
 def delete_credit(request, credit_id):
     """Deletes a specific credit entry."""
     credit = get_object_or_404(Credit, id=credit_id)
@@ -275,7 +289,8 @@ def delete_sale(request, sale_id):
     #   Add this else block
     else:
         return render(request, 'sale_confirm_delete.html', {'sale': sale})
-
+    
+@user_passes_test(is_manager_check or is_salesagent_check)
 def view_sale(request, sale_id):
     """
     Displays the details of a specific sale record based on the provided sale ID.
@@ -284,54 +299,7 @@ def view_sale(request, sale_id):
     context = {'sale': sale}  # Pass the Sale object to the template
     return render(request, 'sale_detail.html', context)  # Render the template
 
-def branch_sales(request, branch_name):  # Change the view name and add branch_name parameter
-    """
-    Displays all sales records for a specific branch.
-    It filters the Sales model based on the provided branch name.
-    """
-    sales = Sales.objects.filter(branch__branch_name=branch_name)  # Filter sales by branch name
-
-    context = {
-        'sales': sales,
-        'branch_name': branch_name,  # Pass the branch name to the template
-    }
-    return render(request, 'branch_sales.html', context)
-
-@login_required
-@user_passes_test(is_owner_check)  # Only owner/director can access
-def sales_report(request):
-    """
-    Generates and displays a sales report, including total sales amount,
-    total sales count, and average sale amount across all branches.
-    """
-    all_sales = Sales.objects.all()  # Get all sales records
-
-    total_sales_amount = all_sales.aggregate(Sum('selling_price'))['selling_price__sum'] or 0
-    total_sales_count = all_sales.count()
-    average_sale_amount = total_sales_amount / total_sales_count if total_sales_count else 0
-
-    context = {
-        'total_sales_amount': total_sales_amount,
-        'total_sales_count': total_sales_count,
-        'average_sale_amount': average_sale_amount,
-        'all_sales': all_sales,
-    }
-    return render(request, 'sales_report.html', context)
-
-def notify_managers(product_name):
-    """
-    Sends an email notification to all managers about a specific product being out of stock.
-    It retrieves all users with manager status and sends an email to their registered email addresses.
-    """
-    managers = Userprofile.objects.filter(is_manager=True)
-    manager_emails = [manager.email for manager in managers if manager.email]  # Get emails
-
-    if manager_emails:  # Only send if there are managers with emails
-        subject = f"Stock Out of Stock: {product_name}"
-        message = f"The product '{product_name}' is out of stock."
-        from_email = settings.DEFAULT_FROM_EMAIL  # Use your default email setting
-        send_mail(subject, message, from_email, manager_emails)
-
+@user_passes_test(is_manager_check or is_salesagent_check)
 def edit_sale(request, sale_id):
     """
     Allows editing of an existing sale record.
@@ -358,6 +326,7 @@ def edit_sale(request, sale_id):
     }
     return render(request, 'edit_sale.html', context)
 
+@user_passes_test(is_manager_check or is_salesagent_check)
 def addsale(request):
     if request.method == 'POST':
         form = AddSalesForm(request.POST)

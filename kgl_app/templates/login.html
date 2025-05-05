@@ -1,22 +1,25 @@
 {% load crispy_forms_tags %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'login.css' %}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    />
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - KGL</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #0e88cf;
+            --secondary-color: #343a40;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+        }
+        
         body {
-            font-family: 'Inter', sans-serif; /* More modern font */
-            background-color: #e3f4f4; /* Light green background */
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
             margin: 0;
             padding: 0;
             display: flex;
@@ -24,111 +27,127 @@
             align-items: center;
             min-height: 100vh;
         }
-        .login {
-            background-color: #fff;
-            border-radius: 12px; /* Slightly more rounded corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            padding: 30px; /* Increased padding */
+        
+        .login-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 40px;
             width: 100%;
-            max-width: 400px; /* Slightly wider form */
-            box-sizing: border-box; /* Include padding in width */
+            max-width: 450px;
         }
-        .top h1 {
-            color: #800020; /* Deep purple/maroon */
+        
+        .login-header {
+            color: var(--primary-color);
             text-align: center;
-            margin-bottom: 25px; /* Increased margin */
-            font-weight: 600; /* Make the heading a bit bolder */
+            margin-bottom: 30px;
+            font-weight: 600;
         }
-        .error-message {
-            color: #e57373; /* Red color for errors */
+        
+        .login-header h1 {
+            margin-bottom: 10px;
+        }
+        
+        .login-header i {
+            font-size: 2.5rem;
             margin-bottom: 15px;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
             text-align: center;
-            font-weight: bold;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        .form-group {
-            margin-bottom: 20px; /* Increased spacing between form groups */
-        }
-        label {
-            color: #555; /* Darker label color for better readability */
             font-weight: 500;
-            margin-bottom: 8px; /* Added margin below label */
-            display: block; /* Ensure label is a block element */
         }
-        input[type="text"],
-        input[type="password"] {
-            /* Removed background-color, using default which is white in most browsers */
-            border: 1px solid #d1c4e9; /* Lighter border color */
-            border-radius: 6px; /* More rounded input corners */
-            padding: 12px; /* Increased padding inside inputs */
-            width: 100%; /* Ensure input fields take full width */
-            box-sizing: border-box; /* Include padding and border in width */
-            font-size: 16px; /* Slightly larger font size for inputs */
-            transition: border-color 0.3s ease; /* Smooth transition */
+        
+        .form-group {
+            margin-bottom: 20px;
         }
-        input[type="text"]:focus,
-        input[type="password"]:focus {
-            outline: none; /* Remove default outline */
-            border-color: #9c27b0; /* Highlight border on focus */
-            box-shadow: 0 0 5px rgba(156, 39, 176, 0.3); /* Add a subtle shadow on focus */
+        
+        .form-group label {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 8px;
         }
-        input[type="submit"] {
-            background-color: #0b3d55; /* A nice blue color */
-            color: white;
-            padding: 12px 25px; /* Slightly adjusted padding */
+        
+        .form-control {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(14, 136, 207, 0.25);
+        }
+        
+        .btn-login {
+            background-color: var(--primary-color);
+            color: var(--white);
             border: none;
-            border-radius: 6px; /* More rounded button corners */
-            cursor: pointer;
-            font-size: 18px; /* Larger font size for button */
-            transition: background-color 0.3s ease; /* Smooth transition */
-            font-weight: 500; /* Make the button text a bit bolder */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-            width: 50%; /* Make the button wider */
-            align-items: center; /* Center the button */
-            margin-left: auto; /* Center the button horizontally */
-            margin-right: auto; /* Center the button horizontally */
-        }
-        input[type="submit"]:hover {
-            background-color: #7e0e4a; /* Darker shade on hover */
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
-        }
-        .errorlist {
-            color: #e57373; /* Red color for errors */
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.2s ease;
             margin-top: 10px;
-            margin-bottom: 0;
-            font-size: 0.9em;
         }
+        
+        .btn-login:hover {
+            background-color: #0c76b4;
+            transform: translateY(-1px);
+        }
+        
         .helptext {
-            color: #777;
-            font-size: 0.85em;
+            color: #6c757d;
+            font-size: 0.85rem;
             margin-top: 5px;
-            display: block;
+        }
+        
+        .errorlist {
+            color: #dc3545;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            padding-left: 0;
+            list-style: none;
+        }
+        
+        @media (max-width: 576px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    {% block content %}
-    <br />
-    <div class="body container-fluid login">
-        <div class="container container-fluid top">
-            <h1 class="text-white" style="color: #800020;">Login</h1>
-
-            {% if error_message %}
-            <div class="error-message">{{ error_message }}</div>
-            
-            {% endif %}
-
-            <form action="" method="POST" id="form">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <br /><br />
-                <input type="submit" value="SUBMIT" />
-            </form>
+    <div class="login-container">
+        <div class="login-header">
+            <i class="fas fa-user-circle"></i>
+            <h1>Login to KGL</h1>
         </div>
+        
+        {% if error_message %}
+        <div class="error-message">
+            <i class="fas fa-exclamation-circle me-2"></i>{{ error_message }}
+        </div>
+        {% endif %}
+        
+        <form method="POST" id="form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-login">
+                <i class="fas fa-sign-in-alt me-2"></i>LOGIN
+            </button>
+        </form>
     </div>
-    {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
