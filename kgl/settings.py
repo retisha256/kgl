@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os # <-- ADDED: Import os for path joining
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +41,6 @@ INSTALLED_APPS = [
     'kgl_app',
     'crispy_forms',
     'crispy_bootstrap5'
-
-
 ]
 AUTH_USER_MODEL ='kgl_app.Userprofile'
 
@@ -122,11 +121,19 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# <-- ADDED: Configuration required for collectstatic to run on Render/production.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static', 
+]
+# END ADDED SECTION -->
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CRISPY_TEMPLATE_PACK ='bootstrap5' 
-LOGIN_REDIRECT_URL="index"
 
+# CRISPY FORMS CONFIGURATION
+CRISPY_TEMPLATE_PACK ='bootstrap5' # <-- MOVED HERE for clarity and consistency
+LOGIN_REDIRECT_URL="index"
 LOGIN_URL ="login"
