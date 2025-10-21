@@ -155,5 +155,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CRISPY FORMS CONFIGURATION
 CRISPY_TEMPLATE_PACK ='bootstrap5' 
-LOGIN_REDIRECT_URL="index"
-LOGIN_URL ="login"
+# We are setting it to the root path ('/') for simplicity.
+LOGIN_REDIRECT_URL = '/' 
+
+# The URL to redirect to if a user tries to access a page that requires login
+LOGIN_URL = '/login/' 
+
