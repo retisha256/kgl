@@ -2,124 +2,205 @@
 {% load static %}
 
 {% block content %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 <style>
-    /* Custom styling */
+    /* -----------------------------------
+    ALL SALES SPECIFIC STYLES
+    ----------------------------------- */
+    :root {
+        --kgl-blue: #3498db; /* Primary color from base.html */
+        --kgl-green: #2ecc71; /* Success color for cash */
+        --kgl-red: #e74c3c; /* Danger color for credit/delete */
+        --kgl-yellow: #f1c40f; /* Warning color for edit */
+    }
+
+    /* Header for the 'All Sales' section */
     .sales-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #e0e0e0;
+        padding: 20px 25px; /* Add internal padding */
+        background-color: #ffffff; /* Use white background for the header card */
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Soft, professional shadow */
+        margin-bottom: 25px;
     }
-    
+
     .sales-title {
-        color: #0e88cf;
-        font-weight: 600;
+        display: flex;
+        align-items: center;
+        color: #2c3e50; /* Darker text for main title */
+        font-weight: 700;
+        font-size: 1.8rem;
         margin: 0;
     }
     
     .title-icon {
-        color: #0e88cf; /* Matching the title color */
-        margin-right: 10px;
+        color: var(--kgl-blue); 
+        margin-right: 15px;
+        font-size: 1.5em;
     }
     
     .add-sale-btn {
-        background-color: #0e88cf;
+        background-color: var(--kgl-blue);
         color: white;
-        font-weight: 500;
-        padding: 8px 15px;
-        border-radius: 5px;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 8px;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
     
     .add-sale-btn:hover {
-        background-color: #0c76b4;
-        color: white;
-        transform: translateY(-2px);
+        background-color: #2980b9;
+        transform: translateY(-1px);
     }
     
+    /* Table Container Styling (Main Content Card) */
     .table-container {
         background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        overflow: hidden; /* Ensures rounded corners are respected */
     }
     
+    /* Table and Table Head Styling */
+    .table-responsive {
+        /* Custom scrollbar styling could go here for extra polish */
+    }
+    
+    .table {
+        margin-bottom: 0; /* Remove default Bootstrap table bottom margin */
+    }
+
     .table thead th {
-        background-color: #f8f9fa;
-        color: #495057;
+        background-color: #f4f7f9; /* Lighter background for headers */
+        color: #555;
         font-weight: 600;
-        border-bottom-width: 2px;
+        border-bottom: 2px solid #e0e0e0;
+        padding: 15px 25px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
     }
     
+    .table tbody td {
+        padding: 15px 25px;
+        vertical-align: middle;
+        border-bottom: 1px solid #f0f0f0;
+        color: #34495e;
+    }
+
     .table tbody tr:hover {
         background-color: #f8f9fa;
     }
     
-    .action-button {
-        padding: 5px 8px;
-        border-radius: 4px;
-        margin-right: 5px;
-        text-decoration: none;
-        transition: all 0.2s ease;
-    }
-    
-    .view-button {
-        color: #0d6efd;
-    }
-    
-    .edit-button {
-        color: #ffc107;
-    }
-    
-    .delete-button {
-        color: #dc3545;
-    }
-    
-    .action-button:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
-    
+    /* Payment Badges */
     .cash-badge {
-        padding: 4px 8px;
-        border-radius: 12px;
-        font-size: 12px;
-        font-weight: 500;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
     }
     
     .cash-true {
-        background-color: #d1e7dd;
-        color: #0f5132;
+        background-color: #d4edda; /* Light green */
+        color: #155724; /* Dark green text */
     }
     
     .cash-false {
-        background-color: #f8d7da;
-        color: #842029;
+        background-color: #f8d7da; /* Light red */
+        color: #721c24; /* Dark red text */
     }
     
+    /* Action Buttons (Icons only for a cleaner look) */
+    .action-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%; /* Circular buttons */
+        margin-right: 5px;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+    
+    .action-button i {
+        font-size: 0.9rem;
+    }
+
+    .view-button {
+        color: var(--kgl-blue);
+    }
+    .view-button:hover {
+        background-color: rgba(52, 152, 219, 0.1); /* Light blue hover background */
+    }
+    
+    .edit-button {
+        color: var(--kgl-yellow);
+    }
+    .edit-button:hover {
+        background-color: rgba(241, 196, 15, 0.1); /* Light yellow hover background */
+    }
+    
+    .delete-button {
+        color: var(--kgl-red);
+    }
+    .delete-button:hover {
+        background-color: rgba(231, 76, 60, 0.1); /* Light red hover background */
+    }
+    
+    /* Empty State Message */
     .empty-table-message {
         text-align: center;
-        padding: 30px;
-        color: #6c757d;
+        padding: 40px;
+        color: #7f8c8d;
+        font-size: 1rem;
+        font-style: italic;
+    }
+
+    /* Ensure actions column is aligned right */
+    .text-end {
+        text-align: right !important;
+    }
+
+    /* -----------------------------------
+    RESPONSIVENESS ADJUSTMENTS
+    ----------------------------------- */
+    @media (max-width: 992px) {
+        .sales-header {
+            padding: 15px;
+        }
+        .sales-title {
+            font-size: 1.5rem;
+        }
+        .add-sale-btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        .table thead th, .table tbody td {
+            padding: 10px 15px;
+            font-size: 0.85rem;
+        }
     }
 </style>
 
 <div class="container-fluid py-4">
     <div class="sales-header">
-        <h1 class="sales-title" style="margin-left:180px;">
-            <i class="fas fa-shopping-cart title-icon"></i><strong>Sales Made</strong>
+        <h1 class="sales-title">
+            <i class="fas fa-chart-line title-icon"></i>
+            <span>All Sales Made</span>
         </h1>
         <a href="{% url 'addsale' %}" class="add-sale-btn">
-            <i class="fas fa-plus me-2"></i>Add Sale
+            <i class="fas fa-plus"></i>
+            <span>Add Sale</span>
         </a>
     </div>
 
-    <div class="table-container" style="width:90%;margin-left:160px;">
+    <div class="table-container">
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead>
@@ -142,7 +223,7 @@
                         <tr>
                             <td>{{ sale.product_name }}</td>
                             <td>{{ sale.tonnage }} kg</td>
-                            <td>Ugx. {{ sale.total_sales|floatformat:2 }}</td>
+                            <td class="fw-bold">UGX. {{ sale.total_sales|floatformat:2 }}</td>
                             <td>{{ sale.buyers_name }}</td>
                             <td>{{ sale.salesagent_name }}</td>
                             <td>
@@ -169,7 +250,8 @@
                     {% else %}
                         <tr>
                             <td colspan="{% if user.is_manager or user.is_salesagent %}8{% else %}7{% endif %}" class="empty-table-message">
-                                No sales records found. Click "Add Sale" to create a new record.
+                                <i class="fas fa-inbox fa-2x mb-3"></i>
+                                <p>No sales records found. Click "Add Sale" to create a new record.</p>
                             </td>
                         </tr>
                     {% endif %}

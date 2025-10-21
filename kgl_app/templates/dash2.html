@@ -1,117 +1,146 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Sales and Stock Dashboard</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KGL Manager Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: sans-serif; }
-        .dashboard-container {
-            display: flex;
-            min-height: 100vh;
-        }
-        .sidebar {
-            background-color: #343a40;
-            color: #fff;
-            padding: 20px;
-            width: 180px;
-        }
-        .sidebar h2 {
-            margin-bottom: 20px;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar li {
-            margin-bottom: 10px;
-        }
-        .sidebar a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
         }
         .sidebar a:hover {
-            background-color: #495057;
+            background-color: #2b6cb0;
         }
-        .content {
-            flex-grow: 1;
-            padding: 20px;
+        .sidebar a.active {
+            background-color: #2c5282;
+            font-weight: 600;
         }
-        .card-header {
-            background-color: #0e88cf;
-            color: white;
+        #main-content {
+            transition: margin-left 0.3s ease;
         }
-        .card-body {
-            background-color: #f8f9fa;
-        }
-        .jumbotron {
-            background-color: #e9ecef;
-            padding: 20px;
-        }
-       
-h1{
-    color: #0e88cf;
-        font-weight: 600;
-        margin: 0;
-}        
     </style>
 </head>
-<body>
-    <div class="dashboard-container">
-        <div class="sidebar">
-            <h2>KGL</h2>
-            <ul>
-                <li><a href="{% url 'allsales' %}"><i class="fas fa-chart-line"></i> All Sales</a></li>
-                <li><a href="{% url 'allstock' %}"><i class="fas fa-cubes"></i> All Stock</a></li>
-                <li><a href="{% url 'receipt' %}"><i class="fas fa-file-invoice"></i> Receipts</a></li>
-                <li><a href="{% url 'addcredit' %}"><i class="fas fa-credit-card"></i> All Credit</a></li>
-                <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
+<body class="min-h-screen">
+
+    <!-- Sidebar Toggle Button -->
+    <button id="sidebar-toggle" class="md:hidden fixed top-4 left-4 z-40 p-2 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition duration-150">
+        <i data-lucide="menu"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar fixed z-30 h-full w-64 bg-gray-800 text-white flex flex-col transition-transform duration-300 -translate-x-full md:translate-x-0">
+        <div class="p-6 border-b border-gray-700">
+            <h2 class="text-3xl font-extrabold text-blue-400 tracking-wider">KGL</h2>
+            <p class="text-sm text-gray-400 mt-1">Inventory Management</p>
         </div>
-        <div class="content">
-            <div class="jumbotron">
-                <h1>Manager Dashboard</h1>
-            </div>
-            <div class="row">
-                <div class="col-md-3">  <!-- Changed col-md-4 to col-md-3 -->
-                    <div class="card">
-                        <div class="card-header">Total Cash Sales</div>
-                        <div class="card-body"><strong>UGX.{{ total_cash_sales }}</strong></div>
-                    </div>
-                </div>
-                <div class="col-md-3">  <!-- Changed col-md-4 to col-md-3 -->
-                    <div class="card">
-                        <div class="card-header">Total Credit Sales</div>
-                        <div class="card-body"><strong>UGX.{{ total_credit_sales }}</strong></div>
-                    </div>
-                </div>
-                <div class="col-md-3">  <!-- Changed col-md-4 to col-md-3 -->
-                    <div class="card">
-                        <div class="card-header">Total Sales</div>
-                        <div class="card-body"><strong>UGX.{{ total_sales }}</strong></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mt-4">
-                    <div class="card">
-                        <div class="card-header">Total Stock</div>
-                        <div class="card-body"><strong>{{ total_stock }}Kgs</strong></div>
-                    </div>
-                </div>
-               
-                <div class="col-md-8 mt-4">
-                    <div class="card">
-                        <div class="card-header">Low stock</div>
-                        <div class="card-body"><strong>{{ low_stock_items.count  }}</strong></div>
-                    </div>
-                </div>
-            </div>
+
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <a href="{% url 'manager' %}" class="active flex items-center space-x-3 p-3 rounded-xl text-gray-200">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'allsales' %}" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-700">
+                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                <span>All Sales</span>
+            </a>
+            <a href="{% url 'allstock' %}" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-700">
+                <i data-lucide="package" class="w-5 h-5"></i>
+                <span>All Stock</span>
+            </a>
+            <a href="{% url 'receipt' %}" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-700">
+                <i data-lucide="receipt" class="w-5 h-5"></i>
+                <span>Receipts</span>
+            </a>
+            <a href="{% url 'addcredit' %}" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-700">
+                <i data-lucide="credit-card" class="w-5 h-5"></i>
+                <span>All Credit</span>
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-gray-700">
+            <a href="{% url 'logout' %}" class="flex items-center space-x-3 p-3 rounded-xl bg-red-600 hover:bg-red-700">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+                <span>Logout</span>
+            </a>
         </div>
     </div>
-    
+
+    <!-- Main Content -->
+    <div id="main-content" class="md:ml-64 p-4 md:p-8 pt-16 md:pt-8 w-full">
+
+        <!-- Header -->
+        <header class="bg-white p-6 rounded-2xl shadow-xl mb-8">
+            <div class="flex items-center justify-between">
+                <h1 class="text-3xl font-bold text-gray-800">Manager Dashboard</h1>
+                {% if user.is_authenticated %}
+                    <span class="text-gray-600 hidden sm:block">Welcome, {{ user.username }}!</span>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- Summary Cards -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-green-500">
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-500">Total Cash Sales</p>
+                    <i data-lucide="dollar-sign" class="w-6 h-6 text-green-500"></i>
+                </div>
+                <p class="text-2xl font-bold text-gray-900 mt-1">UGX. {{ total_cash_sales|default:"0" }}</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-yellow-500">
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-500">Total Credit Sales</p>
+                    <i data-lucide="wallet" class="w-6 h-6 text-yellow-500"></i>
+                </div>
+                <p class="text-2xl font-bold text-gray-900 mt-1">UGX. {{ total_credit_sales|default:"0" }}</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-blue-500">
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-500">Total Revenue</p>
+                    <i data-lucide="trending-up" class="w-6 h-6 text-blue-500"></i>
+                </div>
+                <p class="text-2xl font-bold text-gray-900 mt-1">UGX. {{ total_sales|default:"0" }}</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-indigo-500">
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-500">Total Stock</p>
+                    <i data-lucide="package-search" class="w-6 h-6 text-indigo-500"></i>
+                </div>
+                <p class="text-2xl font-bold text-gray-900 mt-1">{{ total_stock|default:"0" }} Kgs</p>
+            </div>
+        </section>
+
+        <!-- Stock Alerts and Charts -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-red-500">
+                <div class="flex justify-between items-center">
+                    <p class="text-sm text-gray-500">Low Stock Alert</p>
+                    <i data-lucide="alert-triangle" class="w-6 h-6 text-red-500"></i>
+                </div>
+                <p class="text-2xl font-bold text-red-600 mt-1">{{ low_stock_items.count|default:"0" }} Items</p>
+                <p class="text-xs text-gray-500 mt-2">Needs immediate attention!</p>
+            </div>
+
+            
+        </section>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+    </script>
 </body>
 </html>

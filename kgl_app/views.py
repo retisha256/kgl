@@ -238,6 +238,8 @@ def addstock(request, pk):
         form = UpdateStockForm(instance=issued_item)  # Populate form with current data
     return render(request, "addstock.html", {'form': form, 'stock_item': issued_item})
 
+
+
 # view for addcredit
 
 def addcredit(request):
