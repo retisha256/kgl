@@ -31,6 +31,19 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # This environment variable is automatically set by Render.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+]
+
+if RENDER_EXTERNAL_HOSTNAME:
+    # This covers your primary Render domain
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RENDER_EXTERNAL_HOSTNAME}")
+
+# This explicitly covers the domain the error log showed
+CSRF_TRUSTED_ORIGINS.append('https://kgl-system.onrender.com')
+
+
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
