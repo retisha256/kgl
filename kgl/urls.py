@@ -25,10 +25,7 @@ urlpatterns = [
    # path('',auth_views.LoginView.as_view(template_name='login.html'),name="login"),
     path('',views.index,name='dash'),
      path('addstock/<str:pk>/',views.addstock, name="addstock") , 
-     # ...
-path('addstock/<str:pk>/',views.addstock, name="addstock") , 
-# kgl_app/urls.py (or your app's urls.py)
-
+ 
 
    
 
