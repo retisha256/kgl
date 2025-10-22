@@ -30,12 +30,8 @@ path('addstock/<str:pk>/',views.addstock, name="addstock") ,
 # kgl_app/urls.py (or your app's urls.py)
 
 
-    path('addstock/new/', views.add_new_stock, name='add_new_stock'),
+   
 
-    # 2. URL for Editing *Existing* Stock (PK required)
-    path('addstock/<int:pk>/', views.edit_stock, name='edit_stock'),
-
-    # ... other paths
 
 
      path('login/',views.Login, name="login"),

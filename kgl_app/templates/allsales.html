@@ -1,257 +1,126 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block page_title %}All Sales Records{% endblock %}
+
 {% block content %}
-<style>
-    /* -----------------------------------
-    ALL SALES SPECIFIC STYLES
-    ----------------------------------- */
-    :root {
-        --kgl-blue: #3498db; /* Primary color from base.html */
-        --kgl-green: #2ecc71; /* Success color for cash */
-        --kgl-red: #e74c3c; /* Danger color for credit/delete */
-        --kgl-yellow: #f1c40f; /* Warning color for edit */
-    }
 
-    /* Header for the 'All Sales' section */
-    .sales-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 25px; /* Add internal padding */
-        background-color: #ffffff; /* Use white background for the header card */
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Soft, professional shadow */
-        margin-bottom: 25px;
-    }
-
-    .sales-title {
-        display: flex;
-        align-items: center;
-        color: #2c3e50; /* Darker text for main title */
-        font-weight: 700;
-        font-size: 1.8rem;
-        margin: 0;
-    }
+<div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
     
-    .title-icon {
-        color: var(--kgl-blue); 
-        margin-right: 15px;
-        font-size: 1.5em;
-    }
-    
-    .add-sale-btn {
-        background-color: var(--kgl-blue);
-        color: white;
-        font-weight: 600;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: background-color 0.2s ease, transform 0.2s ease;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-    
-    .add-sale-btn:hover {
-        background-color: #2980b9;
-        transform: translateY(-1px);
-    }
-    
-    /* Table Container Styling (Main Content Card) */
-    .table-container {
-        background-color: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        overflow: hidden; /* Ensures rounded corners are respected */
-    }
-    
-    /* Table and Table Head Styling */
-    .table-responsive {
-        /* Custom scrollbar styling could go here for extra polish */
-    }
-    
-    .table {
-        margin-bottom: 0; /* Remove default Bootstrap table bottom margin */
-    }
-
-    .table thead th {
-        background-color: #f4f7f9; /* Lighter background for headers */
-        color: #555;
-        font-weight: 600;
-        border-bottom: 2px solid #e0e0e0;
-        padding: 15px 25px;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-    }
-    
-    .table tbody td {
-        padding: 15px 25px;
-        vertical-align: middle;
-        border-bottom: 1px solid #f0f0f0;
-        color: #34495e;
-    }
-
-    .table tbody tr:hover {
-        background-color: #f8f9fa;
-    }
-    
-    /* Payment Badges */
-    .cash-badge {
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
-    
-    .cash-true {
-        background-color: #d4edda; /* Light green */
-        color: #155724; /* Dark green text */
-    }
-    
-    .cash-false {
-        background-color: #f8d7da; /* Light red */
-        color: #721c24; /* Dark red text */
-    }
-    
-    /* Action Buttons (Icons only for a cleaner look) */
-    .action-button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%; /* Circular buttons */
-        margin-right: 5px;
-        text-decoration: none;
-        transition: background-color 0.2s ease;
-    }
-    
-    .action-button i {
-        font-size: 0.9rem;
-    }
-
-    .view-button {
-        color: var(--kgl-blue);
-    }
-    .view-button:hover {
-        background-color: rgba(52, 152, 219, 0.1); /* Light blue hover background */
-    }
-    
-    .edit-button {
-        color: var(--kgl-yellow);
-    }
-    .edit-button:hover {
-        background-color: rgba(241, 196, 15, 0.1); /* Light yellow hover background */
-    }
-    
-    .delete-button {
-        color: var(--kgl-red);
-    }
-    .delete-button:hover {
-        background-color: rgba(231, 76, 60, 0.1); /* Light red hover background */
-    }
-    
-    /* Empty State Message */
-    .empty-table-message {
-        text-align: center;
-        padding: 40px;
-        color: #7f8c8d;
-        font-size: 1rem;
-        font-style: italic;
-    }
-
-    /* Ensure actions column is aligned right */
-    .text-end {
-        text-align: right !important;
-    }
-
-    /* -----------------------------------
-    RESPONSIVENESS ADJUSTMENTS
-    ----------------------------------- */
-    @media (max-width: 992px) {
-        .sales-header {
-            padding: 15px;
-        }
-        .sales-title {
-            font-size: 1.5rem;
-        }
-        .add-sale-btn {
-            padding: 8px 15px;
-            font-size: 0.9rem;
-        }
-        .table thead th, .table tbody td {
-            padding: 10px 15px;
-            font-size: 0.85rem;
-        }
-    }
-</style>
-
-<div class="container-fluid py-4">
-    <div class="sales-header">
-        <h1 class="sales-title">
-            <i class="fas fa-chart-line title-icon"></i>
-            <span>All Sales Made</span>
+    <!-- Sales Header & Add Button -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-5 rounded-xl shadow-lg mb-6 border-b-4 border-blue-600/50">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-800 flex items-center mb-4 sm:mb-0">
+            <!-- Lucide Icon: BarChart -->
+            <i data-lucide="bar-chart" class="w-7 h-7 text-blue-600 mr-3"></i>
+            <span>All Sales Records</span>
         </h1>
-        <a href="{% url 'addsale' %}" class="add-sale-btn">
-            <i class="fas fa-plus"></i>
-            <span>Add Sale</span>
+        
+        <a href="{% url 'addsale' %}" class="w-full sm:w-auto flex items-center justify-center space-x-2 bg-blue-600 text-white font-semibold py-2.5 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-150 transform hover:-translate-y-0.5">
+            <!-- Lucide Icon: Plus -->
+            <i data-lucide="plus" class="w-5 h-5"></i>
+            <span>Add New Sale</span>
         </a>
     </div>
 
-    <div class="table-container">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead>
+    <!-- Main Table Container -->
+    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th>Product</th>
-                        <th>Tonnage</th>
-                        <th>Amount</th>
-                        <th>Customer</th>
-                        <th>Sales Agent</th>
-                        <th>Payment</th>
-                        <th>Branch</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Product
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Customer
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Agent
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Quantity (kg)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Amount (UGX)
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Payment
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Branch
+                        </th>
                         {% if user.is_manager or user.is_salesagent %}
-                        <th class="text-end">Actions</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
                         {% endif %}
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white divide-y divide-gray-100">
                     {% if sales %}
                         {% for sale in sales %}
-                        <tr>
-                            <td>{{ sale.product_name }}</td>
-                            <td>{{ sale.tonnage }} kg</td>
-                            <td class="fw-bold">UGX. {{ sale.total_sales|floatformat:2 }}</td>
-                            <td>{{ sale.buyers_name }}</td>
-                            <td>{{ sale.salesagent_name }}</td>
-                            <td>
-                                <span class="cash-badge {% if sale.is_sold_on_cash %}cash-true{% else %}cash-false{% endif %}">
+                        <tr class="hover:bg-gray-50 transition duration-150">
+                            <!-- Product -->
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ sale.product_name }}
+                            </td>
+                            <!-- Customer -->
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {{ sale.buyers_name }}
+                            </td>
+                            <!-- Sales Agent -->
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                                {{ sale.salesagent_name }}
+                            </td>
+                            <!-- Tonnage -->
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-gray-600">
+                                {{ sale.tonnage }}
+                            </td>
+                            <!-- Total Sales Amount -->
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-bold text-green-700">
+                                {{ sale.total_sales|floatformat:2 }}
+                            </td>
+                            <!-- Payment Status Badge -->
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
+                                    {% if sale.is_sold_on_cash %} bg-green-100 text-green-800 {% else %} bg-red-100 text-red-800 {% endif %}">
                                     {% if sale.is_sold_on_cash %}Cash{% else %}Credit{% endif %}
                                 </span>
                             </td>
-                            <td>{{ sale.branch }}</td>
+                            <!-- Branch -->
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ sale.branch }}
+                            </td>
+                            <!-- Actions -->
                             {% if user.is_manager or user.is_salesagent %}
-                            <td class="text-end">
-                                <a href="{% url 'view_sale' sale_id=sale.id %}" class="action-button view-button" title="View">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{% url 'edit_sale' sale_id=sale.id %}" class="action-button edit-button" title="Edit">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                                <a href="{% url 'delete_sale' sale_id=sale.id %}" class="action-button delete-button" title="Delete">
-                                    <i class="fas fa-trash-alt"></i>
-                                </a>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                <div class="flex justify-center space-x-2">
+                                    <!-- View -->
+                                    <a href="{% url 'view_sale' sale_id=sale.id %}" title="View Details" 
+                                       class="text-blue-600 hover:text-blue-900 p-1 rounded-full hover:bg-blue-100 transition duration-150">
+                                        <i data-lucide="eye" class="w-5 h-5"></i>
+                                    </a>
+                                    <!-- Edit -->
+                                    <a href="{% url 'edit_sale' sale_id=sale.id %}" title="Edit Sale"
+                                       class="text-yellow-600 hover:text-yellow-900 p-1 rounded-full hover:bg-yellow-100 transition duration-150">
+                                        <i data-lucide="pencil" class="w-5 h-5"></i>
+                                    </a>
+                                    <!-- Delete -->
+                                    <a href="{% url 'delete_sale' sale_id=sale.id %}" title="Delete Sale"
+                                       class="text-red-600 hover:text-red-900 p-1 rounded-full hover:bg-red-100 transition duration-150">
+                                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                                    </a>
+                                </div>
                             </td>
                             {% endif %}
                         </tr>
                         {% endfor %}
                     {% else %}
                         <tr>
-                            <td colspan="{% if user.is_manager or user.is_salesagent %}8{% else %}7{% endif %}" class="empty-table-message">
-                                <i class="fas fa-inbox fa-2x mb-3"></i>
-                                <p>No sales records found. Click "Add Sale" to create a new record.</p>
+                            <td colspan="8" class="px-6 py-12 text-center text-gray-500">
+                                <i data-lucide="inbox" class="w-8 h-8 mx-auto mb-3 text-gray-400"></i>
+                                <p class="text-lg font-medium">No sales records found.</p>
+                                <p>Click "Add New Sale" above to create your first record.</p>
                             </td>
                         </tr>
                     {% endif %}
@@ -261,5 +130,4 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}
