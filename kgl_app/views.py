@@ -134,7 +134,7 @@ def allsales(request):
     return render(request, "allsales.html", {'sales': sales})
 
 
-@user_passes_test(is_manager_check or is_salesagent_check)
+
 def issue_item(request, pk):
     """
     Handles the process of issuing an item (creating a sale record).
@@ -167,7 +167,7 @@ def issue_item(request, pk):
             return redirect('receipt')
     return render(request, 'issue_item.html', {'sales_form': sales_form})
 
-@user_passes_test(is_manager_check or is_salesagent_check)
+
 
 def receipt_detail(request, receipt_id):
     """
@@ -194,7 +194,7 @@ def detail(request, stock_id):
 
 # view for deleting stock
 
-@user_passes_test(is_manager_check)
+
 # Handles the deletion of a specific stock item.
 def delete_stock(request, stock_id):
     """
@@ -212,7 +212,7 @@ def delete_stock(request, stock_id):
         return render(request, 'stock_confirm_delete.html', {'stock': stock})
 
 
-@user_passes_test(is_manager_check)
+
 # view for addingstock
 def addstock(request, pk):
     """
@@ -258,7 +258,7 @@ def add_credit(request):
         form = AddCreditForm()
     return render(request, 'add_credit_form.html', {'form': form}) # Create this template
 
-@user_passes_test(is_manager_check )
+
 def delete_credit_list(request):
     """Displays a list of credit entries with checkboxes for deletion."""
     credit = Credit.objects.all().order_by("-Dispatch_date")

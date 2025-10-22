@@ -1,149 +1,109 @@
 {% load static %}
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karibu Groceries</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide icons for clean UI elements -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
     <style>
+        /* Use the Inter font universally */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa; /* Light background */
-            color: #343a40; /* Darker text for better contrast */
         }
-        .navbar {
-            background-color:#343a40;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        }
-        .navbar-brand {
-            color: white;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .navbar-nav .nav-link {
-            color: white;
-            margin-left: 1rem;
-        }
-        .navbar-nav .nav-link:hover {
-            color: #f0f8f4; /* Slightly lighter green on hover */
-        }
-        .container {
-            margin-top: 3rem; /* Increased margin for better spacing */
-            margin-bottom: 3rem;
-        }
-        .jumbotron {
-            background-image: url(soybeans.webp); /* Very light green */
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .jumbotron h1 {
-            color: white; /* Darker green */
-            font-weight: bold;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .jumbotron p {
-            color: white;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-        .btn-primary {
-            background-color: #e2751b; /* Green button */
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.1rem;
-        }
-        .btn-primary:hover {
-            background-color: #218838; /* Darker green on hover */
-        }
-        .btn-secondary {
-            background-color:#0e88cf;
-        font-weight: 600;
-        margin: 0;; /* Dark Blue button */
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-size: 1.1rem;
-        }
-        .btn-secondary:hover {
-            background-color: #0b3d55; /* Darker blue on hover */
-        }
-
-        .card {
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: none;
-            border-radius: 0.5rem;
-        }
-        .card-title {
-            color: #28a745; /* Green title */
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .card-body p{
-            color: #0c3001;
-            font-size: 1.1rem;
-        }
-
-        footer {
-            background-color:#343a40;; /* Light footer background */
-            padding: 1.5rem 0;
-            text-align: center;
-            color: white; /* Gray text */
-            margin-top: 3rem;
-            border-top: 1px solid #dee2e6;
+        /* Custom class for the overlay on the hero image */
+        .hero-overlay {
+            background-color: rgba(0, 0, 0, 0.4); /* Dark overlay for text readability */
         }
     </style>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Karibu Groceries Ltd</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+    
+    <!-- Navigation Bar (Using bg-slate-800) -->
+    <nav class="bg-slate-800 shadow-md">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
                 
-                </ul>
+                <!-- Brand Logo/Name -->
+                <a class="text-white text-xl font-bold tracking-tight" href="#">Karibu Groceries Ltd</a>
+                
+                <!-- Navigation Items (Collapsed on mobile, shown on desktop) -->
+                <div class="hidden sm:flex space-x-4">
+                    <a href="#" class="text-white hover:text-blue-400 px-3 py-2 rounded-md text-sm font-medium transition">Home</a>
+                    <!-- You can add more links here if needed -->
+                    <a href="{% url 'login' %}" class="text-blue-400 hover:text-blue-300 px-3 py-2 rounded-md text-sm font-medium transition">Login</a>
+                </div>
+
+                <!-- Mobile Menu Button (Hamburger) - Using Lucide icon -->
+                <button class="sm:hidden text-white hover:text-gray-300" id="mobile-menu-toggle">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div class="hidden sm:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#" class="block text-white hover:bg-slate-700 px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="{% url 'login' %}" class="block text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium">Login</a>
             </div>
         </div>
     </nav>
 
-    <main class="container">
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto px-4 py-8">
         {% block content %}
-        <div class="jumbotron" style="background-image: url('{% static 'soybeans.webp' %}'); background-size: cover; background-repeat: no-repeat;">
-            <h1 class="display-4">Welcome to Karibu Groceries Ltd</h1>
-            <p class="lead"><strong>
-                Your one-stop shop for fresh, high-quality produce.
-            </strong>
-            </p>
-            <hr class="my-4">
-            <p>
-                Explore our wide selection of groceries and experience the best service.
-            </p>
-    
-            <a href="{% url 'login' %}" class="btn btn-secondary btn-lg">Login</a>
-        </div>
+        
+        <!-- Hero Section (Jumbotron replacement) -->
+        <div class="relative overflow-hidden rounded-xl shadow-xl h-96 flex items-center justify-center p-6 lg:p-16" 
+             style="background-image: url('{% static 'soybeans.webp' %}'); background-size: cover; background-position: center;">
             
+            <!-- Dark Overlay for Readability -->
+            <div class="absolute inset-0 hero-overlay"></div>
+            
+            <!-- Hero Content -->
+            <div class="relative z-10 text-center max-w-2xl">
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4 leading-tight">
+                    Welcome to Karibu Groceries Ltd
+                </h1>
+                
+    
+                <!-- Login Button (Using bg-blue-600 for primary action) -->
+                <a href="{% url 'login' %}" 
+                   class="inline-flex items-center justify-center py-3 px-8 border border-transparent rounded-lg shadow-lg text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 transform hover:scale-[1.02]">
+                    <i data-lucide="log-in" class="w-5 h-5 mr-2"></i>
+                    Login
+                </a>
+            </div>
+        </div>
         
         {% endblock %}
     </main>
 
-    <footer class="footer">
-        <div class="container-fluid">
-            <p>&copy; 2025 Karibu Groceries Ltd. All rights reserved.</p>
+    <!-- Footer (Using bg-slate-800) -->
+    <footer class="bg-slate-800 py-6 mt-10">
+        <div class="container mx-auto px-4 text-center text-gray-300">
+            <p class="text-sm">&copy; 2025 Karibu Groceries Ltd. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript for Mobile Menu and Lucide Icons -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle Logic
+        const toggleButton = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        toggleButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>
-

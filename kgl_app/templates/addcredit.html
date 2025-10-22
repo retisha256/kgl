@@ -1,195 +1,172 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% block title %}All Credit Entries{% endblock %}
 
-<div class="container-fluid py-4">
-    <div class="card shadow-sm">
-        <div class="card-header" style="background-color: #0e88cf; color: white;">
-            <div class="d-flex justify-content-between align-items-center">
-                <h3 class="mb-0"><i class="fas fa-credit-card me-2"></i>Credit Management</h3>
-                <div class="btn-group">
-                    <a href="{% url 'add_credit' %}" class="btn btn-success">
-                        <i class="fas fa-plus-circle me-1"></i> Add Credit
-                    </a>
-                    <a href="{% url 'delete_credit_list' %}" class="btn btn-outline-light">
-                        <i class="fas fa-trash-alt me-1"></i> Manage Credits
-                    </a>
+{% block content %}
+<!-- Load Tailwind and Lucide Icons (assuming base.html already includes the scripts) -->
+
+<div class="py-6 sm:py-8 bg-[#f4f7f9] min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Main Card Container -->
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+            
+            <!-- Card Header - Using KGL Blue Accent (bg-blue-600) -->
+            <div class="bg-blue-600 p-6 sm:p-8 text-white">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <h3 class="text-2xl sm:text-3xl font-bold flex items-center mb-4 sm:mb-0">
+                        <i data-lucide="wallet" class="w-7 h-7 me-3"></i>
+                        Credit Management
+                    </h3>
+                    <div class="flex space-x-3">
+                        <a href="{% url 'add_credit' %}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-150 flex items-center">
+                            <i data-lucide="plus-circle" class="w-5 h-5 me-2"></i>
+                            Add Credit
+                        </a>
+                        <!-- Changed to use outline white button style for consistency -->
+                        <a href="{% url 'delete_credit_list' %}" class="border border-white text-white hover:bg-white hover:text-gray-800 font-semibold py-2 px-4 rounded-xl transition duration-150 flex items-center">
+                            <i data-lucide="trash-2" class="w-5 h-5 me-2"></i>
+                            Manage Credits
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th class="ps-4">Product</th>
-                            <th>Customer</th>
-                            <th>Quantity</th>
-                            <th>Amount Due</th>
-                            <th>Dispatch Date</th>
-                            <th class="text-end pe-4">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for credit in credit %}
-                        <tr class="clickable-row" onclick="window.location='#';" style="cursor: pointer;">
-                            <td class="ps-4 fw-semibold">{{ credit.product_name }}</td>
-                            <td>{{ credit.buyer_name }}</td>
-                            <td><span class="badge" style="background-color: #e2f0fb; color: #0e88cf;">{{ credit.tonnage }} kgs</span></td>
-                            <td class="fw-bold text-danger">UGX {{ credit.amount_due|floatformat:2 }}</td>
-                            <td>
-                                <span class="badge bg-light text-dark">
-                                    <i class="far fa-calendar-alt me-1"></i>
-                                    {{ credit.Dispatch_date|date:"M d, Y" }}
-                                </span>
-                            </td>
-                            <td class="text-end pe-4">
-                                <span class="badge {% if credit.is_paid %}bg-success{% else %}bg-warning{% endif %}">
-                                    {% if credit.is_paid %}Paid{% else %}Pending{% endif %}
-                                </span>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6" class="text-center py-4">
-                                <div class="d-flex flex-column align-items-center">
-                                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">No credit entries found</h5>
-                                    <p class="text-muted">Add your first credit entry to get started</p>
-                                    <a href="{% url 'add_credit' %}" class="btn btn-primary mt-2" style="background-color: #0e88cf; border-color: #0e88cf;">
-                                        <i class="fas fa-plus me-1"></i> Add Credit
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <!-- Card Body - Table -->
+            <div class="p-4 sm:p-6 lg:p-8">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Product</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Customer</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Quantity</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Amount Due</th>
+                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Dispatch Date</th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-100">
+                            {% for credit_entry in credit %}
+                            <!-- Added data-href and clickable-row class for JS targeting -->
+                            <tr class="clickable-row hover:bg-blue-50 transition duration-150" data-href="#">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ credit_entry.product_name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ credit_entry.buyer_name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <span class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        {{ credit_entry.tonnage }} kgs
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-red-600">UGX {{ credit_entry.amount_due|floatformat:2 }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
+                                        <i data-lucide="calendar" class="w-3.5 h-3.5 me-1"></i>
+                                        {{ credit_entry.Dispatch_date|date:"M d, Y" }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+                                    <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full 
+                                        {% if credit_entry.is_paid %}
+                                            bg-green-100 text-green-800
+                                        {% else %}
+                                            bg-yellow-100 text-yellow-800
+                                        {% endif %}">
+                                        {% if credit_entry.is_paid %}Paid{% else %}Pending{% endif %}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-12">
+                                    <div class="flex flex-col items-center">
+                                        <i data-lucide="inbox" class="w-12 h-12 text-gray-400 mb-4"></i>
+                                        <h5 class="text-xl font-semibold text-gray-500">No credit entries found</h5>
+                                        <p class="text-gray-400 mt-1">Add your first credit entry to get started.</p>
+                                        <a href="{% url 'add_credit' %}" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition duration-150 flex items-center">
+                                            <i data-lucide="plus" class="w-5 h-5 me-1"></i> Add Credit
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
 
-        {% if credit.has_other_pages %}
-        <div class="card-footer bg-transparent">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center mb-0">
-                    {% if credit.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page=1" aria-label="First" style="color: #0e88cf;">
-                            <span aria-hidden="true">&laquo;&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ credit.previous_page_number }}" aria-label="Previous" style="color: #0e88cf;">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    {% endif %}
-
-                    {% for num in credit.paginator.page_range %}
-                        {% if credit.number == num %}
-                        <li class="page-item active"><a class="page-link" href="#" style="background-color: #0e88cf; border-color: #0e88cf;">{{ num }}</a></li>
-                        {% elif num > credit.number|add:'-3' and num < credit.number|add:'3' %}
-                        <li class="page-item"><a class="page-link" href="?page={{ num }}" style="color: #0e88cf;">{{ num }}</a></li>
+            <!-- Card Footer - Pagination -->
+            {% if credit.has_other_pages %}
+            <div class="card-footer bg-gray-50 p-4 border-t border-gray-200">
+                <nav class="flex justify-center" aria-label="Pagination">
+                    <ul class="flex items-center space-x-2">
+                        
+                        {% if credit.has_previous %}
+                        <li>
+                            <a href="?page=1" class="page-link" aria-label="First">
+                                <span class="px-3 py-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition duration-150" aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="?page={{ credit.previous_page_number }}" class="page-link" aria-label="Previous">
+                                <span class="px-3 py-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition duration-150" aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
                         {% endif %}
-                    {% endfor %}
 
-                    {% if credit.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ credit.next_page_number }}" aria-label="Next" style="color: #0e88cf;">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ credit.paginator.num_pages }}" aria-label="Last" style="color: #0e88cf;">
-                            <span aria-hidden="true">&raquo;&raquo;</span>
-                        </a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </nav>
+                        {% for num in credit.paginator.page_range %}
+                            {% if credit.number == num %}
+                            <li>
+                                <span class="px-4 py-1.5 rounded-lg font-semibold bg-blue-600 text-white">{{ num }}</span>
+                            </li>
+                            {% elif num > credit.number|add:'-3' and num < credit.number|add:'3' %}
+                            <li>
+                                <a href="?page={{ num }}" class="page-link">
+                                    <span class="px-4 py-1.5 rounded-lg text-blue-600 hover:bg-blue-100 transition duration-150">{{ num }}</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if credit.has_next %}
+                        <li>
+                            <a href="?page={{ credit.next_page_number }}" class="page-link" aria-label="Next">
+                                <span class="px-3 py-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition duration-150" aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="?page={{ credit.paginator.num_pages }}" class="page-link" aria-label="Last">
+                                <span class="px-3 py-1.5 rounded-lg text-blue-600 hover:bg-blue-50 transition duration-150" aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- ADDED LUCIDE SCRIPT HERE to resolve ReferenceError -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
 <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
     // Make rows clickable
     document.querySelectorAll('.clickable-row').forEach(row => {
         row.addEventListener('click', () => {
-            window.location = row.dataset.href;
+            // Check for the data-href attribute set in the template
+            const href = row.dataset.href; 
+            if (href && href !== '#') {
+                window.location.href = href;
+            } else {
+                // Optional: Console log if the link is not yet implemented
+                console.log("Row clicked, navigation not implemented yet for this entry.");
+            }
         });
     });
 </script>
-
-<style>
-    .card {
-        border: none;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-    
-    .card-header {
-        padding: 1.25rem 1.5rem;
-    }
-    
-    .table thead th {
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.8rem;
-        letter-spacing: 0.5px;
-        color: #495057;
-        background-color: #f8f9fa;
-    }
-    
-    .clickable-row:hover {
-        background-color: #f8fafc;
-        transform: translateY(-1px);
-        transition: all 0.2s ease;
-    }
-    
-    .badge {
-        padding: 0.35em 0.65em;
-        font-weight: 500;
-    }
-    
-    .empty-state {
-        padding: 3rem 0;
-    }
-    
-    .btn-success {
-        background-color: #28a745;
-        border-color: #28a745;
-    }
-    
-    .btn-outline-light:hover {
-        color: #212529;
-    }
-    
-    h3 {
-        color: white;
-        font-weight: 600;
-    }
-    
-    .table tbody td {
-        padding: 12px 16px;
-        vertical-align: middle;
-    }
-    
-    .action-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        margin: 0 4px;
-        transition: all 0.2s ease;
-    }
-</style>
 {% endblock %}

@@ -63,7 +63,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kgl_app',
     'crispy_forms',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5',
+      'widget_tweaks',
 ]
 AUTH_USER_MODEL ='kgl_app.Userprofile'
 
