@@ -1,26 +1,57 @@
-
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'addstock.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-<body>
-    {% block content %}
-    <div class="container">
-        <form action=""method="POST">
-            <h1 class="text-center">Add to stock Form</h1>
-            <br>
-            {% csrf_token %}
-            {{ form| crispy }}
-            <input type="submit" value="submit" class="btn btn-primary btn">
-        </form>
+
+{% block title %}Add New Stock{% endblock %}
+
+{% block content %}
+<!--
+    NOTE: The 'tailwind' template pack is assumed to be configured in Django settings
+    to ensure {{ form|crispy }} renders using Tailwind CSS classes.
+-->
+<div class="py-10 bg-gray-50 min-h-screen">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Form Card Container -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+            
+            <!-- Header -->
+            <div class="p-6 sm:p-8 border-b border-gray-100 bg-white">
+                <h1 class="text-3xl font-extrabold text-gray-800 text-center border-b-4 border-blue-600 pb-3 inline-block mx-auto">
+                    Add to Stock Form
+                </h1>
+            </div>
+
+            <!-- Form Body -->
+            <form method="post" action="" class="p-6 sm:p-8">
+                {% csrf_token %}
+
+                <!-- Renders the form fields using the configured Crispy Forms template pack -->
+                <div class="space-y-6">
+                    {{ form|crispy }}
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full sm:w-auto flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-150 transform hover:scale-[1.02]">
+                            <i data-lucide="plus" class="w-5 h-5 me-2"></i> Add Stock
+                        </button>
+                        
+                        <!-- Added a Cancel Button for better UX (linking to a placeholder URL) -->
+                        <a href="#" class="w-full sm:w-auto flex items-center justify-center bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl shadow-lg transition duration-150 transform hover:scale-[1.02] no-underline">
+                            <i data-lucide="x" class="w-5 h-5 me-2"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    {% endblock %}
-</body>
-</html>
+</div>
+
+<!-- Load Lucide icons for button icons -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+</script>
+{% endblock %}
